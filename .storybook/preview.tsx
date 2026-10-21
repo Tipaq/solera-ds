@@ -1,5 +1,6 @@
 import type { Decorator, Preview } from '@storybook/react-vite'
-import { useEffect, type ReactNode } from 'react'
+import type { ReactNode } from 'react'
+import { addons } from 'storybook/preview-api'
 import { TooltipProvider, UiLabelsProvider, type UiLabels } from '../src'
 import { SYNTAX_THEMES, THEMES } from '../src/tokens'
 import '../docs/styles.css'
@@ -26,34 +27,29 @@ const LABELS: Record<string, UiLabels> = {
 }
 
 /**
- * Le cadre d'une story : thème et palette posés sur `<html>`, comme dans une
- * application. Sur la racine et non sur un conteneur : les jetons sont définis par
- * `:root[data-theme]`, et tout ce qui part en portail — dialogue, menu, infobulle — se
- * rend hors de l'arbre de la story.
+ * Thème, palette et langue posés sur `<html>`, comme dans une application. Sur la racine
+ * et non sur un conteneur : les jetons sont définis par `:root[data-theme]`, et tout ce
+ * qui part en portail — dialogue, menu, infobulle — se rend hors de l'arbre de la story.
  *
- * Un composant nommé plutôt que le corps du décorateur : un décorateur *est* un rendu
- * de composant, et `react-hooks/rules-of-hooks` refuse qu'on appelle un hook depuis une
- * fonction dont le nom n'annonce pas un composant.
+ * Par le canal des globals et non par un décorateur : un décorateur n'enveloppe que les
+ * stories, et une page MDX qui n'en contient pas — la plupart des fondations — resterait
+ * sans thème, ses spécimens lisant des jetons non définis.
  */
-function StoryFrame({
-  theme,
-  syntax,
-  locale,
-  children,
-}: {
-  theme: string
-  syntax: string
-  locale: string
-  children: ReactNode
-}) {
-  useEffect(() => {
-    const root = document.documentElement
-    root.dataset.theme = theme
-    if (syntax === 'solera') delete root.dataset.syntax
-    else root.dataset.syntax = syntax
-    root.lang = locale
-  }, [theme, syntax, locale])
+function applyGlobals(globals: Record<string, unknown>) {
+  const root = document.documentElement
+  root.dataset.theme = String(globals.theme ?? 'dark')
+  const syntax = String(globals.syntax ?? 'solera')
+  if (syntax === 'solera') delete root.dataset.syntax
+  else root.dataset.syntax = syntax
+  root.lang = String(globals.locale ?? 'fr')
+}
 
+const channel = addons.getChannel()
+channel.on('setGlobals', ({ globals }: { globals: Record<string, unknown> }) => applyGlobals(globals))
+channel.on('globalsUpdated', ({ globals }: { globals: Record<string, unknown> }) => applyGlobals(globals))
+
+/** Ce que toute application installe autour des primitives : infobulles et libellés. */
+function StoryFrame({ locale, children }: { locale: string; children: ReactNode }) {
   return (
     <UiLabelsProvider labels={LABELS[locale] ?? LABELS.fr!}>
       <TooltipProvider>{children}</TooltipProvider>
@@ -62,11 +58,7 @@ function StoryFrame({
 }
 
 const withFrame: Decorator = (Story, context) => (
-  <StoryFrame
-    theme={String(context.globals.theme)}
-    syntax={String(context.globals.syntax)}
-    locale={String(context.globals.locale)}
-  >
+  <StoryFrame locale={String(context.globals.locale)}>
     <Story />
   </StoryFrame>
 )
