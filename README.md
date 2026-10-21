@@ -56,13 +56,14 @@ import { RADII, TEXT_STEPS } from '@solera/ui/tokens'
 Tailwind ne scanne pas `node_modules` de lui-même : sans ce `@source`, aucune classe des
 primitives n'est générée, et les boutons sortent sans style.
 
-Pour essayer une modification du design system dans une application avant de la
-commiter, on y lie ce dossier le temps de l'essai, depuis le paquet qui le consomme :
+Pour essayer une modification dans une application avant de la fusionner, on la pousse
+sur une branche et on épingle ce commit : n'importe quel commit poussé s'installe. Lier
+le clone par `link:` ne marche pas : il apporterait son propre React, chargé à côté de
+celui de l'application.
 
-```sh
-pnpm link ~/projects/solera-ds   # l'essai
-pnpm install                     # retour au commit épinglé
-```
+Le dépôt doit rester public. Privé, pnpm le clonerait au lieu de télécharger l'archive,
+et le `#` du commit dans le chemin installé empêche Vite de résoudre les imports du
+paquet.
 
 ## Le Storybook
 
