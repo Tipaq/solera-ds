@@ -1,0 +1,13 @@
+/*
+ * Feuille du Storybook : Tailwind, puis le design system.
+ *
+ * Tailwind scanne depuis la racine du projet Vite. Les deux `@source` le disent
+ * explicitement, pour qu'une classe employée par une primitive ou par un spécimen soit
+ * toujours générée.
+ */
+
+@import 'tailwindcss';
+@import '../src/styles/index.css';
+
+@source '../src';
+@source '.';

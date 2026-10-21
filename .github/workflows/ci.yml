@@ -1,0 +1,27 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # pnpm doit être en place avant setup-node : la clé de cache du store en dépend.
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      # Le CSS commité doit valoir celui que `tokens.ts` produit, sinon un spécimen
+      # annonce une valeur que le navigateur n'applique pas.
+      - run: pnpm tokens:check
+      # Couvre les stories : une primitive renommée casse la sienne ici.
+      - run: pnpm typecheck
+      - run: pnpm lint
+      # Une config ou un .mdx cassé n'apparaîtrait sinon qu'au prochain `dev`.
+      - run: pnpm build
