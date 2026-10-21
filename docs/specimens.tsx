@@ -29,6 +29,11 @@ import {
  * scanne les fichiers source et ne génère rien pour une classe assemblée à l'exécution.
  * Un `rounded-${name}` produirait une page sans aucun arrondi, et sans la moindre erreur
  * pour le dire.
+ *
+ * Chaque grille porte le fond du canevas (`bg-canvas`, ou `bg-sunken` pour un bac) : la
+ * page de docs de Storybook reste blanche quel que soit le thème, et l'encre claire d'un
+ * thème sombre y serait illisible. Et `sb-unstyled`, sans quoi la feuille des pages de
+ * docs recolore les cellules et zèbre les lignes par-dessus les jetons.
  */
 
 /**
@@ -121,7 +126,7 @@ export function Tokens({
   }, [rows, version])
 
   return (
-    <div className="my-4 overflow-x-auto rounded-md border border-line">
+    <div className="sb-unstyled my-4 overflow-x-auto rounded-md border border-line bg-canvas">
       <table className="w-full border-collapse text-left">
         <tbody>
           {rows.map(([token, className, role]) => (
@@ -156,7 +161,7 @@ export const LineTokens = () => <Tokens rows={LINES} />
 /** Bac à spécimen : un fond sunken, pour ce qui serait invisible sur le canevas. */
 export function Stage({ children }: { children: React.ReactNode }) {
   return (
-    <div className="my-4 flex flex-wrap items-center gap-5 rounded-md border border-line bg-sunken p-4">
+    <div className="sb-unstyled my-4 flex flex-wrap items-center gap-5 rounded-md border border-line bg-sunken p-4">
       {children}
     </div>
   )
@@ -224,7 +229,7 @@ export function Appearance() {
   // produiraient rien, seule la luminosité a un effet.
   const settings = theme === 'dark-contrast' ? SETTINGS.filter((s) => s.property === '--sg-lift') : SETTINGS
   return (
-    <div className="my-4 flex max-w-lg flex-col gap-3">
+    <div className="sb-unstyled my-4 flex max-w-lg flex-col gap-3 rounded-md bg-canvas p-3">
       {settings.map((setting) => (
         <Setting key={setting.property} {...setting} />
       ))}
@@ -284,7 +289,7 @@ const CODE_SAMPLE = 'const ratio = used / max'
 
 export function TypeScale() {
   return (
-    <div className="my-4 flex flex-col divide-y divide-line rounded-md border border-line px-3">
+    <div className="sb-unstyled my-4 flex flex-col divide-y divide-line rounded-md border border-line bg-canvas px-3">
       {TEXT_STEPS.map((step) => (
         <div key={step.className} className="flex flex-wrap items-baseline gap-x-4 gap-y-1 py-2.5">
           <span
@@ -308,7 +313,7 @@ export function TypeScale() {
 
 export function Radii() {
   return (
-    <div className="my-4 grid grid-cols-2 gap-4 sm:grid-cols-3">
+    <div className="sb-unstyled my-4 grid grid-cols-2 gap-4 sm:grid-cols-3 rounded-md bg-canvas p-3">
       {RADII.map((step) => (
         <div key={step.className} className="flex flex-col gap-1.5">
           <span className={cx('surface block h-14 border border-line', step.className)} />
@@ -345,7 +350,7 @@ export function RadiusNesting() {
 
 export function Densities() {
   return (
-    <div className="my-4 flex flex-col gap-4">
+    <div className="sb-unstyled my-4 flex flex-col gap-4 rounded-md bg-canvas p-3">
       {DENSITIES.map((density) => (
         <div key={density.className} className="flex flex-col gap-1.5">
           <div className="flex flex-wrap items-center gap-3">
@@ -398,7 +403,7 @@ export function Shadows() {
 
 export function Icons() {
   return (
-    <div className="my-4 flex flex-col divide-y divide-line rounded-md border border-line px-3">
+    <div className="sb-unstyled my-4 flex flex-col divide-y divide-line rounded-md border border-line bg-canvas px-3">
       {ICON_SIZES.map(({ size, role }) => (
         <div key={size} className="flex flex-wrap items-center gap-x-4 gap-y-1 py-2.5">
           <span className="flex w-20 shrink-0 items-center gap-2 text-ink-soft">
@@ -416,7 +421,7 @@ export function Icons() {
 
 export function Layers() {
   return (
-    <div className="my-4 flex flex-col divide-y divide-line rounded-md border border-line px-3">
+    <div className="sb-unstyled my-4 flex flex-col divide-y divide-line rounded-md border border-line bg-canvas px-3">
       {LAYERS.map((layer) => (
         <div key={layer.className} className="flex flex-wrap items-baseline gap-x-4 gap-y-1 py-2">
           <code className="w-20 shrink-0 font-mono text-meta text-ink-soft">
@@ -481,7 +486,7 @@ const SYNTAX_ROLES = [
 export function SyntaxSample() {
   return (
     <>
-      <pre className="my-4 overflow-x-auto rounded-md border border-line bg-sunken p-3 font-mono text-code leading-relaxed text-ink">
+      <pre className="sb-unstyled my-4 overflow-x-auto rounded-md border border-line bg-sunken p-3 font-mono text-code leading-relaxed text-ink">
         <code>
           {SYNTAX_SAMPLE.map((line, index) => (
             <span key={index} className="block min-h-[1lh]">
@@ -498,7 +503,7 @@ export function SyntaxSample() {
           ))}
         </code>
       </pre>
-      <div className="my-4 flex flex-wrap items-center gap-3">
+      <div className="sb-unstyled my-4 flex flex-wrap items-center gap-3 rounded-md bg-canvas p-3">
         {SYNTAX_ROLES.map((role) => (
           <span key={role} className="flex items-center gap-1.5">
             <span className="size-3 rounded-full" style={{ background: `var(--sg-syn-${role})` }} />
