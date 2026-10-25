@@ -196,7 +196,7 @@ export function SurfaceGradient() {
 export function AccentOn() {
   return (
     <Stage>
-      <span className="gradient-accent rounded-md px-3 py-2 text-sm font-medium text-accent-ink">
+      <span className="rounded-md bg-accent px-3 py-2 text-sm font-medium text-accent-ink">
         Texte sur accent
       </span>
       <span className="rounded-md bg-accent-wash px-3 py-2 text-sm font-medium text-accent">

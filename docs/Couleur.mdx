@@ -48,6 +48,13 @@ mélange vers `ink-faint` en `oklch`, comme le fait `.sg-reading`.
 <AccentTokens />
 <AccentOn />
 
+**Un bouton porte l'accent en aplat** : `bg-accent`, `hover:bg-accent-hover`, et son texte
+ou son icône en `text-accent-ink`. Pas de `gradient-accent` sur un bouton : le dégradé
+glisse vers une autre teinte, et l'encre n'est réglée que pour l'accent lui-même. Chaque
+thème choisit l'encre qui contraste le mieux — claire en thème clair, sombre en thème
+sombre, où l'accent est trop lumineux pour du blanc (moins de 3:1). `gradient-accent`
+reste aux surfaces décoratives, comme le logo.
+
 ## Statuts
 
 <StatusTokens />
