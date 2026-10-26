@@ -1,5 +1,5 @@
 import * as RadixTooltip from '@radix-ui/react-tooltip'
-import { createContext, useContext, type ComponentPropsWithRef, type ReactElement, type ReactNode } from 'react'
+import { createContext, useContext, type ComponentPropsWithRef, type FocusEvent, type ReactElement, type ReactNode } from 'react'
 import { useMediaQuery } from './use-media-query'
 
 const TooltipEnabled = createContext(true)
@@ -12,13 +12,19 @@ export function TooltipProvider({ children }: { children: ReactNode }) {
   </TooltipEnabled.Provider>
 }
 
+/** Un dialogue ou un menu qui pose le focus sur un bouton après un clic ne doit pas en
+    ouvrir l'aide : seul un focus que le navigateur rendrait visible — au clavier — l'ouvre. */
+function onlyVisibleFocus(event: FocusEvent<HTMLElement>) {
+  if (!event.currentTarget.matches(':focus-visible')) event.preventDefault()
+}
+
 /** Le portail évite de couper l'aide dans les panneaux et les listes défilantes. */
 export function Tooltip({ label, children }: { label: string; children: ReactElement }) {
   const enabled = useContext(TooltipEnabled)
   if (!enabled) return children
   return (
     <RadixTooltip.Root>
-      <RadixTooltip.Trigger asChild>{children}</RadixTooltip.Trigger>
+      <RadixTooltip.Trigger asChild onFocus={onlyVisibleFocus}>{children}</RadixTooltip.Trigger>
       <RadixTooltip.Portal>
         {/* Le calque flottant ne capte pas le pointeur : voir la règle sur
             `[data-radix-popper-content-wrapper]` dans `styles/index.css`. */}
