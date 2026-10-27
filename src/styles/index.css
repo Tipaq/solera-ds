@@ -110,15 +110,14 @@
    * réglages. La couche d'empilement, elle, reste au site d'appel : `scrim z-40`, parce
    * que l'arrangement des choses est dans l'écran et non dans la primitive.
    *
-   * `-webkit-backdrop-filter` n'est pas décoratif : sans lui, pas de flou sur iOS, donc
-   * pas de flou dans la PWA installée, qui est l'endroit où ce voile se voit le plus.
+   * Sans flou : un `backdrop-filter` plein écran se recalcule à chaque image où quelque
+   * chose bouge derrière, un fil qui s'écrit par exemple, et 2 px ne se voyaient pas
+   * assez pour payer ce prix.
    */
   .scrim {
     position: fixed;
     inset: 0;
     background: oklch(0 0 0 / 0.5);
-    -webkit-backdrop-filter: blur(2px);
-    backdrop-filter: blur(2px);
   }
 
   .gradient-accent {

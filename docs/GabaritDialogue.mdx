@@ -26,9 +26,13 @@ de thème. Un voile teinté changerait d'opacité perçue d'un thème à l'autre
 
 Il valait quatre choses différentes jusqu'ici — `black/35`, `/50`, `/60`, avec deux flous
 — réécrites à la main dans seize dialogues, et un seul des seize portait la valeur que ce
-document retenait. Les seize lisent maintenant le même utilitaire : l'intermédiaire, 50 %
-et un flou de 2 px, parce que `/35` ne détache pas assez une feuille sur fond clair et que
-`/60` assombrit l'écran plus que nécessaire pour un panneau de réglages.
+document retenait. Les seize lisent maintenant le même utilitaire : l'intermédiaire, 50 %,
+parce que `/35` ne détache pas assez une feuille sur fond clair et que `/60` assombrit
+l'écran plus que nécessaire pour un panneau de réglages.
+
+Il n'a pas de flou. Il en a porté un de 2 px, retiré parce qu'un `backdrop-filter` plein
+écran se recalcule à chaque image où quelque chose bouge derrière lui — un fil qui
+s'écrit, une animation — et que la saccade se voyait davantage que le flou.
 
 ## La coque
 
