@@ -30,17 +30,15 @@ Les deux familles se ressemblent assez pour qu'on ne remarque pas laquelle s'ouv
 
 Ce qui distingue le tiroir, et rien d'autre :
 
-- une **ombre légère, portée vers la gauche**, parce qu'il recouvre quelque chose. Aucune
-  des trois ombres de l'*Élévation* ne la donne (elles tombent vers le bas) : elle entrera
-  dans les jetons avec le tiroir commun, et le thème contrasté l'annulera comme les autres
-  — la bordure gauche fait le travail ;
-- un **voile** sur ce qu'il recouvre, et **un clic dehors le ferme**. Plus léger que celui
-  des dialogues (`.scrim`) : un tiroir ne suspend pas la page, il se pose dessus. Ce sera
-  donc une seconde occultation, nommée à côté de `.scrim` dans `@solera/ui` et non une
-  opacité recopiée, et la page *Dialogue* le dira ;
-- **une largeur** : `min(36rem, 100% − 3rem)`, qui laisse toujours voir un bord de la
-  page dessous. L'éditeur d'une action en demandait une plus large ; c'est la seule
-  exception discutée, et elle se tranche avec le tiroir commun, pas ici.
+- une **ombre légère, portée vers la gauche**, parce qu'il recouvre quelque chose :
+  `shadow-drawer`, la seule des ombres de l'*Élévation* qui ne tombe pas vers le bas. Le
+  thème contrasté l'annule comme les autres — la bordure gauche fait le travail ;
+- un **voile** sur ce qu'il recouvre, et **un clic dehors le ferme** : `.veil`, plus léger
+  que celui des dialogues (`.scrim`), parce qu'un tiroir ne suspend pas la page, il se
+  pose dessus (*Gabarits/Dialogue*) ;
+- **deux largeurs, pas plus** : `min(36rem, 100% − 3rem)`, qui laisse toujours voir un
+  bord de la page dessous, et `min(48rem, 100% − 3rem)` pour un éditeur (celui d'une
+  action), tranché avec le tiroir commun. Aucune autre.
 
 Le tiroir ne se pose pas n'importe où : la coque d'un lieu lui prépare un **calque**
 sous la rangée (en absolu sur toute la zone de contenu, transparent aux clics quand il est

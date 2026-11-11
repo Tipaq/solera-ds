@@ -5,13 +5,17 @@ import { Shadows } from './specimens'
 
 # Élévation
 
-Trois ombres, trois utilitaires, un sens chacun.
+Quatre ombres, quatre utilitaires, un sens chacun.
 
 <Shadows />
 
 Une ombre dit « ceci flotte au-dessus ». Un élément posé dans le flux n'en a pas.
 
-Le thème contrasté les annule **toutes les trois** (`none`). Un composant qui compte sur
+Les trois premières tombent vers le bas. `shadow-drawer` est portée vers la gauche : c'est
+celle du tiroir, posé sur la page depuis le bord droit (*Gabarits/Panneau et tiroir*). Le
+panneau, ancré, n'en a pas.
+
+Le thème contrasté les annule **toutes** (`none`). Un composant qui compte sur
 son ombre pour se distinguer du fond est donc cassé sur ce thème : la bordure fait le
 travail, l'ombre le confirme. C'est vérifiable en deux clics dans la barre d'outils, et
 c'est la raison principale pour laquelle ce catalogue porte un sélecteur de thème.
