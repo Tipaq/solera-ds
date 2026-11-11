@@ -93,8 +93,27 @@ largeur, et deux façons de revenir. Et sur une page sans panneau, c'est le dét
 appelle un outil, pas un bouton posé d'avance : le diff d'une branche sans session ouvre
 le panneau git quand on le demande.
 
+## Le cadre d'un onglet du panneau
+
+Chaque onglet du panneau — Agent, Actions, Git, Terminaux, Recherche — se monte avec les
+mêmes pièces, exportées par `@solera/ui` (story *Primitives/Panel*) :
+
+| pièce | mesure | rôle |
+| --- | --- | --- |
+| `PanelToolbar` | 48 px, filet bas, `px-3` | le titre court de l'onglet et son compte à gauche, les outils à droite, à la hauteur de `Button size="sm"` |
+| `PanelNotice` | bande fine sous la ligne d'outils | le retour d'un geste ou une erreur (neutre, ambre, rouge), au même endroit partout, `✕` pour la fermer |
+| `PanelGroup` | petites capitales, `px-3 pt-1.5 pb-1` | l'en-tête d'un groupe, son compte, un geste à droite |
+| `panelRowClass` | 36 px, **44 au doigt** | une ligne : `PanelStatusIcon` (icône de nature et point d'état), libellé, méta grise à droite, **un seul** geste (`panelGestureClass`) qui paraît au survol |
+| `StackHeader` | 48 px | le détail **en pile** : « ‹ Onglet » pour revenir, puis ce qu'on regarde |
+| `PanelEmpty` | une ligne | l'état vide, et le geste utile à côté |
+
+Pas de cartes bordées dans un onglet : la couleur ne sert qu'aux points d'état, qui
+reprennent les rôles des comptes d'onglet — vert ce qui tourne, ambre ce qui attend, rouge
+ce qui a échoué. Le point est muet : l'état se dit aussi en toutes lettres.
+
 ## Où ils vivent
 
-Ni l'un ni l'autre n'est une primitive du design system : le tiroir se pose dans un calque
-que la coque d'un lieu lui prépare, et le panneau dépend de l'application qui le porte.
-Ce que cette page fixe, ce sont leurs règles ; les composants sont dans Solera.
+Le tiroir et le panneau eux-mêmes ne sont pas des primitives du design system : le tiroir
+se pose dans un calque que la coque d'un lieu lui prépare, et le panneau dépend de
+l'application qui le porte. Ce que cette page fixe, ce sont leurs règles, et le cadre
+d'un onglet ci-dessus ; le reste est dans Solera.

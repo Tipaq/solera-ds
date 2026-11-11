@@ -66,3 +66,50 @@ export const DansUnTableau: Story = {
     </table>
   ),
 }
+
+function Service({ size, initial }: { size: 'row' | 'tile'; initial: boolean }) {
+  const [on, setOn] = useState(initial)
+  return (
+    <Switch
+      checked={on}
+      onCheckedChange={setOn}
+      label={on ? 'Arrêter le service' : 'Démarrer le service'}
+      tone="positive"
+      size={size}
+      text={size === 'tile' ? (on ? 'En marche' : 'Arrêté') : undefined}
+    />
+  )
+}
+
+/**
+ * Le ton `positive` : un interrupteur qui dit que quelque chose **tourne** — un service —
+ * prend le vert des comptes « en marche », pas l'accent de la sélection.
+ *
+ * Deux tailles : `row`, la piste seule à la hauteur d'une ligne de liste (32 px, 44 au
+ * doigt) ; `tile`, la piste et son état écrit, à la hauteur d'un bouton `sm`.
+ */
+export const Tailles: Story = {
+  name: 'Ligne et tuile',
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <div className="flex w-80 items-center gap-2 border-y border-line/60 px-3">
+        <span className="min-w-0 flex-1 truncate text-sm">pnpm dev</span>
+        <Service size="row" initial />
+      </div>
+      <div className="flex w-80 items-center gap-2 border-y border-line/60 px-3">
+        <span className="min-w-0 flex-1 truncate text-sm">storybook</span>
+        <Service size="row" initial={false} />
+      </div>
+      <div className="flex gap-3">
+        <div className="flex w-56 flex-col gap-2 rounded-md border border-line p-3">
+          <span className="text-sm font-medium">Serveur web</span>
+          <Service size="tile" initial />
+        </div>
+        <div className="flex w-56 flex-col gap-2 rounded-md border border-line p-3">
+          <span className="text-sm font-medium">Storybook</span>
+          <Service size="tile" initial={false} />
+        </div>
+      </div>
+    </div>
+  ),
+}

@@ -22,8 +22,22 @@ import '../docs/styles.css'
  * est plus long que l'anglais, et c'est lui qui fait déborder un libellé de bouton.
  */
 const LABELS: Record<string, UiLabels> = {
-  fr: { cancel: 'Annuler', selectPlaceholder: 'Choisir...' },
-  en: { cancel: 'Cancel', selectPlaceholder: 'Choose...' },
+  fr: {
+    cancel: 'Annuler',
+    selectPlaceholder: 'Choisir...',
+    close: 'Fermer',
+    previousMonth: 'Mois précédent',
+    nextMonth: 'Mois suivant',
+    typeTime: "Taper l'heure",
+  },
+  en: {
+    cancel: 'Cancel',
+    selectPlaceholder: 'Choose...',
+    close: 'Close',
+    previousMonth: 'Previous month',
+    nextMonth: 'Next month',
+    typeTime: 'Type a time',
+  },
 }
 
 /**

@@ -22,11 +22,22 @@ export interface UiLabels {
   cancel: string
   /** Déclencheur d'un `Select` dont aucune option n'est choisie. */
   selectPlaceholder: string
+  /** Fermeture d'une bande de retour (`PanelNotice`). */
+  close: string
+  /** Navigation d'un `MonthGrid`. */
+  previousMonth: string
+  nextMonth: string
+  /** Le champ où l'on tape une heure, en tête d'un `TimePicker`. */
+  typeTime: string
 }
 
 const DEFAULTS: UiLabels = {
   cancel: 'Cancel',
   selectPlaceholder: 'Select…',
+  close: 'Close',
+  previousMonth: 'Previous month',
+  nextMonth: 'Next month',
+  typeTime: 'Type a time',
 }
 
 const Context = createContext<UiLabels>(DEFAULTS)
