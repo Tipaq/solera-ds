@@ -174,8 +174,8 @@ export const CSS_SCALES = [
 ] as const
 
 /**
- * Les trois ombres. Leur valeur est thémée — le thème contrasté les annule toutes les
- * trois — donc elle n'est pas ici : seul le sens de chacune l'est.
+ * Les quatre ombres. Leur valeur est thémée — le thème contrasté les annule toutes —
+ * donc elle n'est pas ici : seul le sens de chacune l'est.
  */
 export const SHADOWS = [
   {
@@ -192,6 +192,11 @@ export const SHADOWS = [
     className: 'shadow-pop',
     token: '--sg-shadow-lg',
     role: "Flottant par-dessus l'application : dialogue, palette, infobulle",
+  },
+  {
+    className: 'shadow-drawer',
+    token: '--sg-shadow-drawer',
+    role: 'Portée vers la gauche : le tiroir, posé sur la page depuis le bord droit',
   },
 ] as const satisfies readonly Pattern[]
 

@@ -35,6 +35,7 @@ export {
 export { Popover } from './Popover'
 export { Presets, type Preset } from './Presets'
 export { RunStrip, type RunTone, type StripRun } from './RunStrip'
+export { SaveBar } from './SaveBar'
 export { SegmentedControl, type Segment } from './SegmentedControl'
 export { Select, type SelectOption } from './Select'
 export { Switch, SwitchTrack, type SwitchTone } from './Switch'
