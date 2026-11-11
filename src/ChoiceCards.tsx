@@ -18,6 +18,10 @@ export interface CardChoice<T extends string> {
  * dans le source au build, et `@min-[${min}]` n'en produirait aucune. Les seuils sont
  * ceux où les libellés tiennent sur une ligne : 15rem par carte à deux, un peu moins à
  * trois, les petites cartes n'ayant qu'une explication tronquée.
+ *
+ * Une colonne se déclare elle aussi (`grid-cols-1`) : la piste implicite d'une grille
+ * prend la largeur de son contenu, et l'explication tronquée d'une petite carte, qui ne
+ * se plie pas, la faisait déborder de son conteneur.
  */
 const COLUMNS = {
   1: '',
@@ -99,7 +103,7 @@ export function ChoiceCards<T extends string>({
         role="radiogroup"
         aria-label={label}
         onKeyDown={onKeyDown}
-        className={cx('grid gap-2', COLUMNS[columns])}
+        className={cx('grid grid-cols-1 gap-2', COLUMNS[columns])}
       >
         {options.map((option) => {
           const selected = option.value === value
@@ -201,7 +205,7 @@ export function CheckCards<T extends string>({
     onChange(values.includes(value) ? values.filter((entry) => entry !== value) : [...values, value])
   return (
     <div className="@container w-full min-w-0">
-      <div ref={group} role="group" aria-label={label} onKeyDown={onKeyDown} className={cx('grid gap-2', COLUMNS[columns])}>
+      <div ref={group} role="group" aria-label={label} onKeyDown={onKeyDown} className={cx('grid grid-cols-1 gap-2', COLUMNS[columns])}>
         {options.map((option) => {
           const checked = values.includes(option.value)
           return (
