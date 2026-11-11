@@ -37,6 +37,10 @@ export const panelToolClass = (pressed = false) =>
  * montre (« Affichage ▾ », des pastilles), avant les gestes. `foldTitle` retire le titre
  * et son compte sous 26 rem, quand l'onglet a mieux à faire de la place — la rangée des
  * onglets dit déjà où l'on est.
+ *
+ * Sans `title`, un champ tient lieu de titre — la recherche, l'adresse d'une page : la
+ * ligne n'a ni titre ni vide qui pousse les outils à droite, et le champ, posé en
+ * premier avec `flex-1`, prend la place qui reste.
  */
 export function PanelToolbar({
   title,
@@ -46,7 +50,8 @@ export function PanelToolbar({
   children,
   className,
 }: {
-  title: ReactNode
+  /** Le titre court de l'onglet ; absent quand un champ en tient lieu. */
+  title?: ReactNode
   meta?: ReactNode
   /** Les outils posés à gauche, après le titre. */
   lead?: ReactNode
@@ -58,15 +63,17 @@ export function PanelToolbar({
 }) {
   return (
     <div className={cx('@container flex h-12 shrink-0 items-center gap-1.5 border-b border-line px-3', className)}>
-      <span className={cx('min-w-0 shrink items-baseline gap-1.5', foldTitle ? 'hidden @min-[26rem]:flex' : 'flex')}>
-        <span className="truncate text-sm font-medium text-ink">{title}</span>
-        {/* La méta cède la première : un titre court tronqué ne se lit plus. */}
-        {meta !== undefined && meta !== null && meta !== '' ? (
-          <span className="shrink-[99] truncate text-xs tabular-nums text-ink-faint">{meta}</span>
-        ) : null}
-      </span>
+      {title !== undefined ? (
+        <span className={cx('min-w-0 shrink items-baseline gap-1.5', foldTitle ? 'hidden @min-[26rem]:flex' : 'flex')}>
+          <span className="truncate text-sm font-medium text-ink">{title}</span>
+          {/* La méta cède la première : un titre court tronqué ne se lit plus. */}
+          {meta !== undefined && meta !== null && meta !== '' ? (
+            <span className="shrink-[99] truncate text-xs tabular-nums text-ink-faint">{meta}</span>
+          ) : null}
+        </span>
+      ) : null}
       {lead}
-      <span className="flex-1" />
+      {title !== undefined ? <span className="flex-1" /> : null}
       {children}
     </div>
   )
