@@ -6,15 +6,20 @@ interface FieldProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 'id'> {
   hint?: string
   error?: string
   icon?: ReactNode
+  /**
+   * Le libellé est déjà dit à côté du champ (une rangée de réglages, libellé à gauche) :
+   * il ne reste que pour les lecteurs d'écran.
+   */
+  hideLabel?: boolean
 }
 
-export function Field({ label, hint, error, icon, className, ...props }: FieldProps) {
+export function Field({ label, hint, error, icon, hideLabel = false, className, ...props }: FieldProps) {
   const id = useId()
   const describedBy = error ? `${id}-error` : hint ? `${id}-hint` : undefined
 
   return (
     <div className="flex flex-col gap-1.5">
-      <label htmlFor={id} className="text-sm font-medium text-ink-soft">
+      <label htmlFor={id} className={cx('text-sm font-medium text-ink-soft', hideLabel && 'sr-only')}>
         {label}
       </label>
 

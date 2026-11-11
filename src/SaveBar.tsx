@@ -8,9 +8,9 @@ import { cx } from './cx'
  * gestes qui en sortent, Annuler et Enregistrer.
  *
  * Elle ne paraît que lorsqu'il y a quelque chose à dire : `count` à zéro et pas de
- * `notice`, elle ne rend rien. Après l'enregistrement, `notice` prend sa place, au même
- * endroit, le temps que l'appelant juge bon : le retour se lit là où l'œil attendait la
- * barre.
+ * `notice`, il ne reste qu'une région vide. Après l'enregistrement, `notice` prend sa
+ * place, au même endroit, le temps que l'appelant juge bon : le retour se lit là où
+ * l'œil attendait la barre.
  *
  * Le décompte et sa phrase restent à l'appelant (`labels.pending`) : le pluriel est une
  * affaire de langue, pas de primitive.
@@ -47,19 +47,19 @@ export function SaveBar({
   /** La position, si la page a quelque chose à enjamber en bas. */
   className?: string
 }) {
-  if (count === 0 && !notice) return null
+  /* La région reste montée, vide au repos : un nœud `aria-live` qui paraît avec son
+     contenu n'est pas annoncé, celui qui était déjà là l'est. */
+  const visible = count > 0 || Boolean(notice)
   return (
     <div
+      aria-live="polite"
       className={cx(
-        'pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center px-4',
+        'pointer-events-none absolute inset-x-0 bottom-6 z-10 flex justify-center px-4',
         className,
       )}
     >
-      {count > 0 ? (
-        <div
-          aria-live="polite"
-          className="surface pointer-events-auto flex max-w-full flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-line px-4 py-2.5 shadow-pop"
-        >
+      {!visible ? null : count > 0 ? (
+        <div className="surface pointer-events-auto flex max-w-full flex-wrap items-center gap-x-3 gap-y-2 rounded-xl border border-line px-4 py-2.5 shadow-pop">
           <span className="min-w-0 text-sm text-ink">{labels.pending}</span>
           <div className="ml-auto flex items-center gap-2">
             <Button size="sm" variant="ghost" disabled={busy} onClick={onCancel}>
@@ -71,10 +71,7 @@ export function SaveBar({
           </div>
         </div>
       ) : (
-        <div
-          role="status"
-          className="surface pointer-events-auto rounded-xl border border-line px-4 py-2.5 text-sm text-ink-soft shadow-pop"
-        >
+        <div className="surface pointer-events-auto rounded-xl border border-line px-4 py-2.5 text-sm text-ink-soft shadow-pop">
           {notice}
         </div>
       )}

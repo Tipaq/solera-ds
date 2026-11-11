@@ -34,3 +34,17 @@ export const Etats: Story = {
     </div>
   ),
 }
+
+/**
+ * Dans une rangée de réglages, le libellé est dit à gauche : `hideLabel` le garde pour
+ * les lecteurs d'écran sans le redire au-dessus du champ.
+ */
+export const SansLibelle: Story = {
+  name: 'Libellé à côté',
+  render: () => (
+    <div className="grid max-w-2xl grid-cols-[12rem_1fr] items-center gap-4">
+      <span className="text-sm font-medium text-ink">Nom</span>
+      <Field label="Nom" hideLabel defaultValue="Nimbus" />
+    </div>
+  ),
+}
