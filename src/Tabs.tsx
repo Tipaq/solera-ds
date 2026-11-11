@@ -10,7 +10,8 @@ export interface Tab<T extends string> {
   count?: number
   /** Le rôle du compteur : voir `CountTone`. */
   tone?: CountTone
-  /** Ce que compte le compteur, en infobulle (« 2 en marche »). */
+  /** Ce que compte le compteur, nombre compris (« 2 en marche ») : en infobulle, et lu à
+      la place du nombre seul. Voir `TabCount`. */
   countTitle?: string
 }
 
@@ -41,7 +42,8 @@ export function TabCount({ count, tone = 'neutral', title }: {
   count: number
   tone?: CountTone
   /** Ce que compte le compteur. Infobulle au survol, et dit à la place du nombre seul
-      au lecteur d'écran : « Actions, 2 à relire » plutôt que « Actions 2 ». */
+      au lecteur d'écran : « Actions 2 à relire » plutôt que « Actions 2 ». Il remplace
+      le nombre, il doit donc le contenir. */
   title?: string
 }) {
   return (
