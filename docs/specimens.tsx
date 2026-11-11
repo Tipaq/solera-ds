@@ -394,8 +394,8 @@ export function Shadows() {
       </Stage>
       <p className="text-xs text-ink-faint">
         {theme === 'dark-contrast'
-          ? 'Thème contrasté : les trois valent `none`. Les carrés ci-dessus sont donc plats, et c’est ce que verra l’utilisateur.'
-          : 'Passe au thème contrasté dans la barre d’outils pour voir disparaître les trois : un composant qui compte sur son ombre y est cassé.'}
+          ? 'Thème contrasté : les quatre valent `none`. Les carrés ci-dessus sont donc plats, et c’est ce que verra l’utilisateur.'
+          : 'Passe au thème contrasté dans la barre d’outils pour voir disparaître les quatre : un composant qui compte sur son ombre y est cassé.'}
       </p>
     </>
   )

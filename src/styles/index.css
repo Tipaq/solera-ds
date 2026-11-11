@@ -120,6 +120,16 @@
     background: oklch(0 0 0 / 0.5);
   }
 
+  /*
+   * Le voile d'un tiroir : plus léger que celui d'un dialogue, parce qu'un tiroir ne
+   * suspend pas la page, il se pose dessus. Occultation elle aussi, donc en noir
+   * littéral. Sans position : le tiroir le pose en absolu dans le calque de la coque,
+   * ou en `fixed` quand il n'en trouve pas — l'arrangement reste au site d'appel.
+   */
+  .veil {
+    background: oklch(0 0 0 / 0.15);
+  }
+
   .gradient-accent {
     background: var(--sg-gradient-accent);
     background-color: var(--sg-accent);
@@ -133,6 +143,10 @@
   }
   .shadow-pop {
     box-shadow: var(--sg-shadow-lg);
+  }
+  /* Portée vers la gauche : le tiroir recouvre la page depuis le bord droit. */
+  .shadow-drawer {
+    box-shadow: var(--sg-shadow-drawer);
   }
 
   .tap-target {
