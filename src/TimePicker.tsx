@@ -79,7 +79,7 @@ export function TimePicker({
         aria-invalid={invalid || undefined}
         className={cx(
           'h-8 rounded-md border bg-canvas px-2 text-sm tabular-nums text-ink outline-none pointer-coarse:h-11',
-          'placeholder:text-ink-faint focus:border-accent',
+          'placeholder:text-ink-faint placeholder:italic focus:border-accent',
           invalid ? 'border-critical' : 'border-line',
         )}
       />

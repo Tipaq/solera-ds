@@ -72,14 +72,14 @@ export const Petites: Story = {
 }
 
 /**
- * Le même composant à trois largeurs de conteneur : en dessous de 30rem, une colonne ;
- * la page n'a pas changé de taille.
+ * Le même composant à deux largeurs de conteneur : trois colonnes à partir de 34rem
+ * (deux à partir de 30rem), une seule en dessous ; la page n'a pas changé de taille.
  */
 export const Conteneur: Story = {
   name: 'Selon la largeur du conteneur',
   render: () => (
     <div className="flex flex-col gap-6">
-      {['20rem', '32rem', '40rem'].map((width) => (
+      {['20rem', '36rem'].map((width) => (
         <div key={width} style={{ width }} className="max-w-full">
           <p className="pb-1.5 text-xs text-ink-faint">{width}</p>
           <Choice options={WHERE} initial="root" size="sm" columns={3} />

@@ -75,15 +75,26 @@ const DOTS: Record<StatusTone, string> = {
 }
 
 /**
- * L'icône de nature d'une ligne, avec son point d'état posé dessus. Le point est muet :
- * la ligne dit l'état en toutes lettres quelque part, ou dans son nom accessible.
+ * L'icône de nature d'une ligne, avec son point d'état posé dans son coin bas. Le point
+ * est muet : la ligne dit l'état en toutes lettres quelque part, ou dans son nom
+ * accessible. `pulse` le fait battre, pour ce qui est en train de tourner.
+ *
+ * Le prototype en avait deux rendus — un petit point en haut dans l'onglet Projet, un
+ * plus gros en bas dans Actions ; celui d'Actions, la référence, vaut pour tous.
  */
-export function PanelStatusIcon({ icon, dot }: { icon: ReactNode; dot?: StatusTone }) {
+export function PanelStatusIcon({ icon, dot, pulse = false }: { icon: ReactNode; dot?: StatusTone; pulse?: boolean }) {
   return (
     <span className="relative grid size-5 shrink-0 place-items-center text-ink-faint">
       {icon}
       {dot ? (
-        <span aria-hidden className={cx('absolute -top-0.5 -right-0.5 size-1.5 rounded-full ring-2 ring-canvas', DOTS[dot])} />
+        <span
+          aria-hidden
+          className={cx(
+            'absolute -right-0.5 -bottom-0.5 size-2.5 rounded-full ring-2 ring-canvas',
+            DOTS[dot],
+            pulse && 'motion-safe:animate-pulse',
+          )}
+        />
       ) : null}
     </span>
   )
