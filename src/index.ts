@@ -29,6 +29,7 @@ export {
   StackHeader,
   panelGestureClass,
   panelRowClass,
+  panelToolClass,
   type StatusTone,
 } from './Panel'
 export { Popover } from './Popover'

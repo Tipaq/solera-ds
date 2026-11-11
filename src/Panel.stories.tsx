@@ -12,6 +12,7 @@ import {
   StackHeader,
   panelGestureClass,
   panelRowClass,
+  panelToolClass,
   type StatusTone,
 } from './Panel'
 import { RunStrip } from './RunStrip'
@@ -132,5 +133,34 @@ export const Retours: Story = {
       <PanelNotice tone="caution" onClose={() => {}}>Interrompu par un redémarrage du serveur.</PanelNotice>
       <PanelNotice tone="critical" onClose={() => {}}>Expression régulière invalide : parenthèse non fermée.</PanelNotice>
     </Frame>
+  ),
+}
+
+/**
+ * Un onglet qui choisit ce qu'il montre : « Affichage ▾ » suit le titre (`lead`), les
+ * gestes restent à droite. Sous 26 rem, le titre s'efface (`foldTitle`) et la vue
+ * choisie garde la place.
+ */
+export const OutilsAGauche: Story = {
+  name: 'Outils à gauche',
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {['max-w-lg', 'max-w-[22rem]'].map((width) => (
+        <div key={width} className={cx('flex w-full flex-col border-l border-line bg-canvas', width)}>
+          <PanelToolbar
+            title="Git"
+            meta={<span className="font-mono">feat/222-panneau</span>}
+            foldTitle
+            lead={
+              <button type="button" className={panelToolClass()}>
+                Graphe <span aria-hidden className="text-ink-faint">▾</span>
+              </button>
+            }
+          >
+            <IconButton size="sm" label="Relire"><RotateCw size={14} /></IconButton>
+          </PanelToolbar>
+        </div>
+      ))}
+    </div>
   ),
 }

@@ -19,30 +19,52 @@ export const panelGestureClass =
   'inline-flex h-11 items-center gap-1.5 rounded-md px-2.5 text-xs text-ink-soft hover:bg-surface-high hover:text-ink disabled:pointer-events-none disabled:opacity-45 md:h-9 pointer-coarse:h-11 focus-visible:outline-2 focus-visible:outline-accent'
 
 /**
+ * Un outil bordé de la ligne d'outils — « Affichage ▾ », un segment, une pastille — à la
+ * hauteur de `Button size="sm"`. `pressed` le dit choisi.
+ */
+export const panelToolClass = (pressed = false) =>
+  cx(
+    'inline-flex h-11 shrink-0 items-center gap-1.5 rounded-md border px-2.5 text-xs transition-colors md:h-9 pointer-coarse:h-11 focus-visible:outline-2 focus-visible:outline-accent',
+    pressed ? 'border-line-strong bg-surface-high text-ink' : 'border-line text-ink-soft hover:border-line-strong hover:text-ink',
+  )
+
+/**
  * La ligne d'outils en tête d'un onglet : 48 px, filet dessous. Le titre court et son
  * compte à gauche, les outils à droite. Elle est son propre conteneur : un outil peut
  * se replier en icône quand le panneau est étroit.
+ *
+ * `lead` pose des outils à gauche, juste après le titre : ce qui choisit ce que l'onglet
+ * montre (« Affichage ▾ », des pastilles), avant les gestes. `foldTitle` retire le titre
+ * et son compte sous 26 rem, quand l'onglet a mieux à faire de la place — la rangée des
+ * onglets dit déjà où l'on est.
  */
 export function PanelToolbar({
   title,
   meta,
+  lead,
+  foldTitle = false,
   children,
   className,
 }: {
   title: ReactNode
   meta?: ReactNode
+  /** Les outils posés à gauche, après le titre. */
+  lead?: ReactNode
+  /** Sous 26 rem de large, le titre et son compte s'effacent. */
+  foldTitle?: boolean
   /** Les outils, posés à droite. */
   children?: ReactNode
   className?: string
 }) {
   return (
     <div className={cx('@container flex h-12 shrink-0 items-center gap-1.5 border-b border-line px-3', className)}>
-      <span className="flex min-w-0 shrink items-baseline gap-1.5">
+      <span className={cx('min-w-0 shrink items-baseline gap-1.5', foldTitle ? 'hidden @min-[26rem]:flex' : 'flex')}>
         <span className="truncate text-sm font-medium text-ink">{title}</span>
         {meta !== undefined && meta !== null && meta !== '' ? (
           <span className="truncate text-xs tabular-nums text-ink-faint">{meta}</span>
         ) : null}
       </span>
+      {lead}
       <span className="flex-1" />
       {children}
     </div>
