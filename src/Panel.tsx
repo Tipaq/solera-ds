@@ -60,8 +60,9 @@ export function PanelToolbar({
     <div className={cx('@container flex h-12 shrink-0 items-center gap-1.5 border-b border-line px-3', className)}>
       <span className={cx('min-w-0 shrink items-baseline gap-1.5', foldTitle ? 'hidden @min-[26rem]:flex' : 'flex')}>
         <span className="truncate text-sm font-medium text-ink">{title}</span>
+        {/* La méta cède la première : un titre court tronqué ne se lit plus. */}
         {meta !== undefined && meta !== null && meta !== '' ? (
-          <span className="truncate text-xs tabular-nums text-ink-faint">{meta}</span>
+          <span className="shrink-[99] truncate text-xs tabular-nums text-ink-faint">{meta}</span>
         ) : null}
       </span>
       {lead}
