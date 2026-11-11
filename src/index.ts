@@ -33,6 +33,7 @@ export {
 } from './Panel'
 export { Popover } from './Popover'
 export { Presets, type Preset } from './Presets'
+export { SaveBar } from './SaveBar'
 export { RunStrip, type RunTone, type StripRun } from './RunStrip'
 export { SegmentedControl, type Segment } from './SegmentedControl'
 export { Select, type SelectOption } from './Select'
