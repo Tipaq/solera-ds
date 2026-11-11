@@ -10,7 +10,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "La barre des modifications en attente d'une page de réglages : flottante, centrée en bas, au-dessus du contenu qui défile.\n\nElle ne paraît qu'avec quelque chose à dire. `count` compte les changements du brouillon ; `labels.pending` en donne la phrase, accordée par l'appelant. Après l'enregistrement, `notice` prend sa place, au même endroit, le temps d'un retour bref.\n\nUn seul enregistrement pour toute la page : les réglages qui agissent tout de suite (une image envoyée, un fichier écrit) gardent leurs propres boutons et n'entrent pas dans le décompte.",
+          "La barre des modifications en attente d'une page de réglages : flottante, centrée en bas de son conteneur (`relative`, qui ne défile pas lui-même), au-dessus du contenu qui défile.\n\nElle ne paraît qu'avec quelque chose à dire. `count` compte les changements du brouillon ; `labels.pending` en donne la phrase, accordée par l'appelant. Après l'enregistrement, `notice` prend sa place, au même endroit, le temps d'un retour bref.\n\nUn seul enregistrement pour toute la page : les réglages qui agissent tout de suite (une image envoyée, un fichier écrit) gardent leurs propres boutons et n'entrent pas dans le décompte.",
       },
     },
   },

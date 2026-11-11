@@ -4,7 +4,7 @@ import { cx } from './cx'
 
 /**
  * La barre des modifications en attente d'une page de réglages : flottante, centrée en
- * bas, elle dit combien de changements dorment dans le brouillon et offre les deux
+ * bas de son conteneur, elle dit combien de changements dorment dans le brouillon et offre les deux
  * gestes qui en sortent, Annuler et Enregistrer.
  *
  * Elle ne paraît que lorsqu'il y a quelque chose à dire : `count` à zéro et pas de
@@ -14,12 +14,17 @@ import { cx } from './cx'
  *
  * Le décompte et sa phrase restent à l'appelant (`labels.pending`) : le pluriel est une
  * affaire de langue, pas de primitive.
+ *
+ * Posée en absolu : le conteneur est `relative` et ne défile pas lui-même — la page
+ * défile dans un enfant, la barre reste en place au-dessus. Centrée sur la page et non
+ * sur la fenêtre, elle ne glisse pas sous une barre latérale.
  */
 export function SaveBar({
   count,
   labels,
   notice,
   busy = false,
+  saveDisabled = false,
   onCancel,
   onSave,
   className,
@@ -35,16 +40,18 @@ export function SaveBar({
   notice?: ReactNode
   /** L'enregistrement part : les deux gestes attendent. */
   busy?: boolean
+  /** Le brouillon ne peut pas partir tel quel (un nom vidé) : Annuler reste offert. */
+  saveDisabled?: boolean
   onCancel: () => void
   onSave: () => void
-  /** La position, si la page a une barre à enjamber en bas (navigation mobile). */
+  /** La position, si la page a quelque chose à enjamber en bas. */
   className?: string
 }) {
   if (count === 0 && !notice) return null
   return (
     <div
       className={cx(
-        'pointer-events-none fixed inset-x-0 bottom-6 z-20 flex justify-center px-4',
+        'pointer-events-none absolute inset-x-0 bottom-6 z-20 flex justify-center px-4',
         className,
       )}
     >
@@ -58,7 +65,7 @@ export function SaveBar({
             <Button size="sm" variant="ghost" disabled={busy} onClick={onCancel}>
               {labels.cancel}
             </Button>
-            <Button size="sm" disabled={busy} onClick={onSave}>
+            <Button size="sm" disabled={busy || saveDisabled} onClick={onSave}>
               {labels.save}
             </Button>
           </div>
