@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { Flag, Layers, SquareKanban, Target, Zap } from 'lucide-react'
 import { useState } from 'react'
 import { Tabs, type Tab } from './Tabs'
 
@@ -15,11 +16,11 @@ const FILTERS: [Tab<string>, ...Tab<string>[]] = [
 ]
 
 const PROJECT: [Tab<string>, ...Tab<string>[]] = [
-  { value: 'overview', label: 'Aperçu' },
-  { value: 'work', label: 'Travail', count: 2, tone: 'caution', countTitle: '2 t’attendent' },
-  { value: 'board', label: 'Tableau', count: 14, countTitle: '14 cartes ouvertes' },
-  { value: 'milestones', label: 'Jalons' },
-  { value: 'actions', label: 'Actions', count: 3, tone: 'running', countTitle: '3 en marche' },
+  { value: 'overview', label: 'Aperçu', icon: <Target size={15} className="shrink-0 text-ink-faint" /> },
+  { value: 'work', label: 'Travail', icon: <Layers size={15} className="shrink-0 text-ink-faint" />, count: 2, tone: 'caution', countTitle: '2 t’attendent' },
+  { value: 'board', label: 'Tableau', icon: <SquareKanban size={15} className="shrink-0 text-ink-faint" />, count: 14, countTitle: '14 cartes ouvertes' },
+  { value: 'milestones', label: 'Jalons', icon: <Flag size={15} className="shrink-0 text-ink-faint" /> },
+  { value: 'actions', label: 'Actions', icon: <Zap size={15} className="shrink-0 text-ink-faint" />, count: 3, tone: 'running', countTitle: '3 en marche' },
 ]
 
 const meta = {
@@ -37,11 +38,15 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-function Demo({ tabs, layout }: { tabs: [Tab<string>, ...Tab<string>[]]; layout?: 'fill' | 'start' }) {
+function Demo({ tabs, layout, className }: {
+  tabs: [Tab<string>, ...Tab<string>[]]
+  layout?: 'fill' | 'start'
+  className?: string
+}) {
   const [value, setValue] = useState(tabs[0].value)
   return (
-    <div className="w-full max-w-xl">
-      <Tabs label="Sections" value={value} tabs={tabs} onChange={setValue} layout={layout} className="px-5" />
+    <div className="w-full max-w-2xl">
+      <Tabs label="Sections" value={value} tabs={tabs} onChange={setValue} layout={layout} className={className ?? 'px-5'} />
       <p className="px-5 py-4 text-sm text-ink-soft">Contenu de l'onglet « {value} ».</p>
     </div>
   )
@@ -62,5 +67,5 @@ export const Reparti: Story = {
 /** Les trois rôles d'un compte côte à côte : inventaire (gris), demande (ambre), en cours (vert). */
 export const TroisRoles: Story = {
   name: "Trois rôles d'un compte",
-  render: () => <Demo tabs={PROJECT} />,
+  render: () => <Demo tabs={PROJECT} className="overflow-x-auto px-5" />,
 }
