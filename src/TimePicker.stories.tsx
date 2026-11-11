@@ -26,6 +26,7 @@ function Time({ hoursOnly = false }: { hoursOnly?: boolean }) {
         hour={time.hour}
         minute={time.minute}
         hoursOnly={hoursOnly}
+        placeholder={hoursOnly ? 'ex. 8' : 'ex. 9h30'}
         autoFocus={false}
         onChange={(hour, minute) => setTime({ hour, minute })}
       />
@@ -66,6 +67,7 @@ function InPopover() {
         hour={time.hour}
         minute={time.minute}
         onChange={(hour, minute) => setTime({ hour, minute })}
+        placeholder="ex. 9h30"
         onDone={() => setOpen(false)}
       />
     </Popover>

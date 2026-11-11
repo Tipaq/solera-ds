@@ -1,5 +1,6 @@
 import { ChevronLeft, X } from 'lucide-react'
 import type { ReactNode } from 'react'
+import { IconButton } from './Button'
 import { cx } from './cx'
 import { useUiLabels } from './labels'
 
@@ -172,14 +173,9 @@ export function PanelNotice({
     >
       <span className="min-w-0 flex-1 py-1">{children}</span>
       {onClose ? (
-        <button
-          type="button"
-          onClick={onClose}
-          aria-label={labels.close}
-          className="grid size-11 shrink-0 place-items-center rounded-md text-ink-faint hover:bg-surface-high hover:text-ink md:size-7 pointer-coarse:size-11 focus-visible:outline-2 focus-visible:outline-accent"
-        >
+        <IconButton size="sm" label={labels.close} onClick={onClose}>
           <X size={14} />
-        </button>
+        </IconButton>
       ) : null}
     </div>
   )

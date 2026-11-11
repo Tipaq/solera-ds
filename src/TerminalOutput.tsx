@@ -11,7 +11,8 @@ const STUCK = 24
  * ignorerait le thème et ferait deux terminaux différents dans la même page.
  *
  * Avec `follow`, elle reste collée en bas tant que le lecteur n'est pas remonté ; elle
- * s'y recolle dès qu'il redescend. Sans, elle s'ouvre sur la fin et ne bouge plus. Le
+ * s'y recolle dès qu'il redescend. Sans, elle se pose sur la fin à chaque texte reçu —
+ * un extrait qui arrive après coup s'ouvre lui aussi sur sa dernière ligne. Le
  * texte est rendu tel quel : retirer l'ANSI et tronquer sont l'affaire de l'appelant,
  * qui sait d'où il vient.
  */
@@ -30,12 +31,9 @@ export function TerminalOutput({
 }) {
   const box = useRef<HTMLPreElement>(null)
   const stuck = useRef(true)
-  const opened = useRef(false)
   useLayoutEffect(() => {
     const element = box.current
-    if (!element) return
-    if (!opened.current || (follow && stuck.current)) element.scrollTop = element.scrollHeight
-    opened.current = true
+    if (element && (!follow || stuck.current)) element.scrollTop = element.scrollHeight
   }, [text, follow])
   return (
     <pre
@@ -47,7 +45,7 @@ export function TerminalOutput({
         stuck.current = element.scrollHeight - element.scrollTop - element.clientHeight < STUCK
       }}
       className={cx(
-        'max-h-80 overflow-auto rounded-md bg-sunken px-3 py-2 font-mono text-meta leading-relaxed whitespace-pre-wrap break-words text-ink',
+        'max-h-80 overflow-auto rounded-md bg-sunken px-3 py-2 font-mono text-code leading-relaxed whitespace-pre-wrap break-words text-ink',
         'focus-visible:outline-2 focus-visible:outline-accent',
         className,
       )}

@@ -25,7 +25,7 @@ l'exécution en `oklch()` depuis `--sg-hue`, `--sg-tint` et `--sg-lift`.
 
 ## Les primitives ne savent rien du produit
 
-Pas de CLI, pas de projet, pas de conversation, pas de copie : les deux libellés que les
+Pas de CLI, pas de projet, pas de conversation, pas de copie : les libellés que les
 primitives portent sont fournis par l'application (`src/labels.tsx`). Ce dépôt n'importe
 rien de Solera, et n'en a pas les moyens : Solera n'y est pas installé.
 

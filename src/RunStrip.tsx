@@ -83,7 +83,7 @@ export function RunStrip({
   )
   if (size === 'sm') return <span className={cx('inline-flex', className)}>{strip}</span>
   return (
-    <div className={cx('@container flex min-w-0 items-end gap-1.5', className)}>
+    <div className={cx('@container flex w-full min-w-0 items-end gap-1.5', className)}>
       {strip}
       {caption ? <span className="hidden text-xs text-ink-faint @min-[28rem]:inline">{caption}</span> : null}
     </div>

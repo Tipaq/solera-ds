@@ -34,6 +34,7 @@ export function TimePicker({
   onDone,
   hoursOnly = false,
   minutes = [0, 15, 30, 45],
+  placeholder,
   autoFocus = true,
 }: {
   hour: number
@@ -42,6 +43,8 @@ export function TimePicker({
   onDone?: () => void
   hoursOnly?: boolean
   minutes?: number[]
+  /** Un exemple d'heure dans la forme de la langue (« ex. 9h30 ») : c'est de la copie. */
+  placeholder?: string
   autoFocus?: boolean
 }) {
   const labels = useUiLabels()
@@ -74,7 +77,7 @@ export function TimePicker({
             commit()
           }
         }}
-        placeholder={hoursOnly ? '8' : '9:30'}
+        placeholder={placeholder}
         aria-label={labels.typeTime}
         aria-invalid={invalid || undefined}
         className={cx(
@@ -95,7 +98,7 @@ export function TimePicker({
             }}
             className={cx(
               CELL,
-              hour === h ? 'bg-accent font-semibold text-accent-ink' : 'text-ink-soft hover:bg-surface-high hover:text-ink',
+              hour === h ? 'bg-accent font-medium text-accent-ink' : 'text-ink-soft hover:bg-surface-high hover:text-ink',
             )}
           >
             {pad(h)}
@@ -115,7 +118,7 @@ export function TimePicker({
               }}
               className={cx(
                 CELL,
-                minute === m ? 'bg-surface-high font-semibold text-ink' : 'text-ink-faint hover:bg-surface-high hover:text-ink',
+                minute === m ? 'bg-surface-high font-medium text-ink' : 'text-ink-faint hover:bg-surface-high hover:text-ink',
               )}
             >
               :{pad(m)}

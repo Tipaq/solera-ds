@@ -1,5 +1,6 @@
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef, useState, type KeyboardEvent } from 'react'
+import { IconButton } from './Button'
 import { cx } from './cx'
 import { useUiLabels } from './labels'
 
@@ -27,8 +28,6 @@ function weekHead(locale: string | undefined, weekStartsOn: 0 | 1): string[] {
 }
 
 const CELL = 'mx-auto grid size-8 place-items-center rounded-full text-xs tabular-nums pointer-coarse:size-11'
-const NAV =
-  'grid size-7 place-items-center rounded-md text-ink-faint hover:bg-surface-high hover:text-ink pointer-coarse:size-11 focus-visible:outline-2 focus-visible:outline-accent'
 
 /**
  * Un mois, qui sert deux fois : **choisir un jour** (`onPick`) et **montrer des jours**
@@ -108,12 +107,12 @@ export function MonthGrid({
           {first.toLocaleDateString(locale, { month: 'long', year: 'numeric' })}
         </span>
         <span className="flex">
-          <button type="button" aria-label={labels.previousMonth} onClick={() => shift(-1)} className={NAV}>
+          <IconButton size="sm" label={labels.previousMonth} onClick={() => shift(-1)}>
             <ChevronLeft size={15} />
-          </button>
-          <button type="button" aria-label={labels.nextMonth} onClick={() => shift(1)} className={NAV}>
+          </IconButton>
+          <IconButton size="sm" label={labels.nextMonth} onClick={() => shift(1)}>
             <ChevronRight size={15} />
-          </button>
+          </IconButton>
         </span>
       </div>
       <div ref={grid} onKeyDown={onPick ? onKeyDown : undefined} className="grid grid-cols-7">
@@ -131,7 +130,9 @@ export function MonthGrid({
           const cell = cx(
             CELL,
             'relative transition-colors',
-            filled ? 'bg-accent font-semibold text-accent-ink' : past ? 'text-line-strong' : 'text-ink-soft',
+            // Passé en `ink-faint`, à venir en `ink` : l'écart se lit sans descendre sous le
+            // contraste AA, qu'une encre de filet ne tiendrait pas.
+            filled ? 'bg-accent font-medium text-accent-ink' : past ? 'text-ink-faint' : 'text-ink',
             day === today && !filled && 'ring-1 ring-ink-faint',
           )
           const label = dayLabel.format(day)

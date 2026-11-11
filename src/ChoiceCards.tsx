@@ -65,7 +65,7 @@ function useArrows(onMove?: (index: number) => void) {
  * `ChoiceList` empile ses options en lignes ; celles-ci se posent en grille, pour les
  * deux ou trois décisions qui structurent un formulaire. Les colonnes suivent la largeur
  * du composant et non celle de l'écran : la même grille tient en deux colonnes dans un
- * tiroir et en une dans un panneau étroit.
+ * tiroir et en une dans un panneau étroit. Il prend donc toute la largeur offerte.
  *
  * Une option sans icône prend une pastille radio, qui dit alors le choix à elle seule.
  * `selectedExtra` déplie un réglage sous l'option choisie, et sous elle seule : il est
@@ -93,7 +93,7 @@ export function ChoiceCards<T extends string>({
   // Sans option choisie, la première reçoit le focus de Tab : sinon le groupe en sortirait.
   const entry = options.some((option) => option.value === value) ? value : options[0]?.value
   return (
-    <div className="@container">
+    <div className="@container w-full min-w-0">
       <div
         ref={group}
         role="radiogroup"
@@ -200,7 +200,7 @@ export function CheckCards<T extends string>({
   const toggle = (value: T) =>
     onChange(values.includes(value) ? values.filter((entry) => entry !== value) : [...values, value])
   return (
-    <div className="@container">
+    <div className="@container w-full min-w-0">
       <div ref={group} role="group" aria-label={label} onKeyDown={onKeyDown} className={cx('grid gap-2', COLUMNS[columns])}>
         {options.map((option) => {
           const checked = values.includes(option.value)

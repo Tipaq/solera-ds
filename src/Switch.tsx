@@ -36,7 +36,8 @@ export function SwitchTrack({ checked, tone = 'accent' }: { checked: boolean; to
 
 const SIZES = {
   cell: 'min-h-11 px-1',
-  row: 'h-8 pointer-coarse:h-11',
+  // Au doigt, 44 × 44 : la piste n'a que 32 px de large.
+  row: 'h-8 pointer-coarse:h-11 pointer-coarse:px-1.5',
   tile: 'h-11 gap-2 px-1.5 text-xs text-ink-soft hover:bg-surface-high hover:text-ink md:h-9 pointer-coarse:h-11',
 } as const
 
