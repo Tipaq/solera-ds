@@ -56,12 +56,28 @@ lieu de la demander.
 | **vue** | l'identité de ce qui est ouvert à gauche, ses signaux et ses actions à droite, le bouton du panneau **au bout**, contre le panneau |
 | **panneau** | ses vues, et rien d'autre — sauf la fermeture quand il est posé en feuille et recouvre le bouton du fil |
 
-L'identité d'un **projet** tient en une ligne : sa pastille, son nom, sa branche. Le
-segment porte en plus *Nouvelle conversation* et le `⋯` — et **rien qui dépende de la
-vue ouverte**, puisque les quatre vues d'un projet partagent cette bande. C'est ce qui
-l'empêche de clignoter quand on change d'onglet, et c'est pourquoi les deux réglages du
-board (le repli du cimetière, le bouton du panneau) sont descendus dans sa ligne de
-filtres : ils règlent le board, pas le projet.
+L'identité d'un **lieu** — un projet, le portefeuille — tient en une ligne : un créneau
+d'icône de 20 px (`size-5`) qui porte l'avatar du projet ou l'icône du lieu, puis son nom
+(`text-sm font-medium`, tronqué). Le segment porte en plus **un seul geste**, à droite —
+*+ Conversation* pour un projet, *+ Projet* pour le portefeuille, en `Button size="sm"` —,
+et **rien qui dépende de la vue ouverte**, puisque toutes les vues d'un lieu partagent
+cette bande. C'est ce qui l'empêche de clignoter quand on change d'onglet, et c'est
+pourquoi les réglages d'une vue sont dans sa barre d'outils : ils règlent la vue, pas le
+projet.
+
+Depuis le 2026-11-11, **ni pastille de branche ni `⋯`** : la branche de la racine se lit
+dans *Travail*, et *Réglages* est un onglet, au bout de la rangée (voir *La page d'un
+lieu*). Le ⚡ des actions est parti le même jour : ce qui tourne se compte en vert sur
+l'onglet *Actions*.
+
+## La gouttière d'un lieu
+
+Au-dessus d'un lieu, la bande ne garde pas le bord de son segment : elle prend la
+**gouttière du lieu**, **16 px, 24 px à partir de `md`** (`pl-4 pr-4 md:pl-6 md:pr-6`),
+la même que la rangée, la barre d'outils et le contenu en dessous. L'avatar tombe ainsi
+sur la même verticale que l'icône du premier onglet, la loupe de la recherche et le
+premier mot du contenu. Le bouton de navigation du téléphone, quand le segment le rend,
+précède le créneau d'icône.
 
 L'identité d'une conversation tient en deux lignes et une icône : le projet au-dessus,
 le titre dessous, l'icône du CLI qui porte l'anneau du tour en cours. Deux éléments
@@ -102,7 +118,8 @@ au-dessus, c'est que la zone est mal découpée.
 ## Au téléphone
 
 Le segment de la vue garde la même hauteur et le même contenu, moins ce qui ne tient
-pas : la puce de branche tombe sous 44 rem, et les signaux s'y réduisent à leur icône.
+pas : le libellé du geste tombe sous `sm` (son `aria-label` reste), et les signaux s'y
+réduisent à leur icône.
 Le nom reste porté par le `title`, la couleur et l'icône disent le reste.
 
 Quand le panneau recouvre l'écran, c'est **lui** qui porte le segment de la vue : il

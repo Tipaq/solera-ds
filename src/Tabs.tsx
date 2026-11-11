@@ -8,15 +8,26 @@ export interface Tab<T extends string> {
   icon?: ReactNode
   /** Compteur affiché après l'intitulé. `undefined` n'occupe pas de place. */
   count?: number
-  /** `caution` pour un compteur qui demande une action ; `neutral` sinon. */
-  tone?: 'neutral' | 'caution'
+  /** Le rôle du compteur : voir `CountTone`. */
+  tone?: CountTone
+  /** Ce que compte le compteur, en infobulle (« 2 en marche »). */
+  countTitle?: string
 }
 
-/** Nommé par le rôle du compteur, pas par sa couleur : voir §2 du document. */
-const COUNT_TONES = {
+/**
+ * Le rôle d'un compteur d'onglet, et non sa couleur — trois, et pas un de plus :
+ *
+ * - `neutral`, gris : un **inventaire**, ce qui existe (« 12 cartes ») ;
+ * - `caution`, ambre : ce qui **t'attend**, une demande (« 2 à relire ») ;
+ * - `running`, vert : ce qui **tourne** tout seul (« 3 en marche »).
+ */
+export type CountTone = 'neutral' | 'caution' | 'running'
+
+const COUNT_TONES: Record<CountTone, string> = {
   neutral: 'bg-surface-high text-ink-soft',
   caution: 'bg-caution/10 text-caution',
-} as const
+  running: 'bg-positive/10 text-positive',
+}
 
 /**
  * Le compteur d'un onglet, après son intitulé.
@@ -26,13 +37,23 @@ const COUNT_TONES = {
  * d'onglets au sens ARIA, l'autre une navigation de liens, et aucune ne peut jouer le
  * rôle de l'autre. Ce qu'elles partagent est l'apparence, et elle n'a qu'une source.
  */
-export function TabCount({ count, tone = 'neutral' }: {
+export function TabCount({ count, tone = 'neutral', title }: {
   count: number
-  tone?: 'neutral' | 'caution'
+  tone?: CountTone
+  /** Ce que compte le compteur. Infobulle au survol, et dit à la place du nombre seul
+      au lecteur d'écran : « Actions, 2 à relire » plutôt que « Actions 2 ». */
+  title?: string
 }) {
   return (
-    <span className={cx('rounded px-1.5 py-0.5 text-xs tabular-nums', COUNT_TONES[tone])}>
-      {count}
+    <span title={title} className={cx('rounded px-1.5 py-0.5 text-xs tabular-nums', COUNT_TONES[tone])}>
+      {title ? (
+        <>
+          <span aria-hidden>{count}</span>
+          <span className="sr-only">{title}</span>
+        </>
+      ) : (
+        count
+      )}
     </span>
   )
 }
@@ -133,7 +154,7 @@ export function Tabs<T extends string>({
           >
             {tab.icon}
             {tab.label}
-            {tab.count === undefined ? null : <TabCount count={tab.count} tone={tab.tone} />}
+            {tab.count === undefined ? null : <TabCount count={tab.count} tone={tab.tone} title={tab.countTitle} />}
           </button>
         )
       })}

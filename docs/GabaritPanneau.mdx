@@ -1,0 +1,90 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+
+<Meta title="Gabarits/Panneau et tiroir" />
+
+# Panneau et tiroir
+
+Ce qui s'ouvre sur le côté d'une page est de **deux familles, et de deux seulement**.
+Arrêté le 2026-11-11 avec la page projet v2 (`docs/audits/2026-11-09-page-projet-v2/`) :
+avant, chaque vue ouvrait son détail à sa façon — une fiche glissée ici, un panneau
+poussé là, une fenêtre ailleurs — et Échap fermait tantôt le détail, tantôt la page
+entière.
+
+| famille | ce qu'il porte | comment il se pose |
+| --- | --- | --- |
+| **le panneau** | des **outils** de travail : git, fichiers, terminal | **ancré** : il pousse le contenu, qui rétrécit et reste lisible à côté |
+| **le tiroir** | un **détail** : la fiche d'une carte, l'éditeur d'une action, la gestion d'une liste | **par-dessus** le contenu, qu'il recouvre en partie |
+
+La différence est dans la durée : on travaille *avec* un panneau ouvert, on passe *par*
+un tiroir et on le referme.
+
+## Même géométrie
+
+Les deux familles se ressemblent assez pour qu'on ne remarque pas laquelle s'ouvre :
+
+- **sous la rangée d'onglets, jusqu'en bas** — la bande et la rangée restent visibles,
+  on sait toujours où l'on est ;
+- un **bord gauche fin** (`border-l border-line`), **sans coins arrondis** : il est posé
+  contre la page, pas flottant au-dessus ;
+- **au téléphone, plein écran** (`w-full`) ; la largeur ne s'applique qu'à partir de `md`.
+
+Ce qui distingue le tiroir, et rien d'autre :
+
+- une **ombre légère** vers la gauche (`shadow-[-12px_0_32px_-16px_rgb(0_0_0/0.35)]`),
+  parce qu'il recouvre quelque chose ;
+- un **voile** léger (`bg-black/15`) sur ce qu'il recouvre, et **un clic dehors le
+  ferme** ;
+- **une largeur** : `min(36rem, 100% − 3rem)`, qui laisse toujours voir un bord de la
+  page dessous. L'éditeur d'une action en demandait une plus large ; c'est la seule
+  exception discutée, et elle se tranche avec le tiroir commun, pas ici.
+
+Le tiroir et le panneau gardent **leurs marges à eux** : la gouttière unique d'un lieu
+(16 px, 24 px dès `md`) s'arrête à leur bord.
+
+## Le même en-tête
+
+Un tiroir s'ouvre sur un en-tête commun : une ligne de méta facultative au-dessus
+(`text-xs text-ink-faint`, qui passe à la ligne), le titre (`text-base font-semibold`),
+la fermeture `✕` à droite (`IconButton size="sm"`, « Fermer »), un filet dessous,
+`px-5 py-3.5`. Un contenu qui porte déjà son propre en-tête s'en passe, mais il n'en
+invente pas un autre.
+
+C'est un `role="dialog"` nommé, et **le focus y entre à l'ouverture** — sauf si un champ
+`autoFocus` l'y a déjà mis. Il revient à ce qui l'avait ouvert à la fermeture.
+
+## Échap ferme la couche la plus haute, et elle seule
+
+Dans un tiroir, d'autres choses s'ouvrent : un menu, une autocomplétion `#`, un champ de
+lien en ligne, une confirmation sur place. Échap doit fermer **la dernière ouverte**, puis
+la précédente au coup suivant — jamais deux d'un coup, jamais le tiroir sous un menu
+encore ouvert.
+
+- **Une seule écoute**, sur `window`, **en capture** : c'est elle qui décide, pas une
+  course entre les gestionnaires de chaque couche.
+- **Une pile de couches** : le tiroir s'y inscrit, et tout ce qui s'ouvre dedans sans être
+  un menu Radix aussi. Échap ferme le sommet de la pile.
+- **Un menu Radix ouvert a la priorité** : il sait se fermer seul, la pile s'efface et le
+  tiroir reste ouvert. Une infobulle n'en est pas un — elle ne retient pas Échap.
+- Une touche déjà traitée (`defaultPrevented`) ou en pleine composition (`isComposing`,
+  la saisie d'un accent ou d'un idéogramme) ne ferme rien.
+
+## Un seul comportement de panneau par page
+
+**Jamais deux panneaux à droite en même temps.** La page décide où s'ouvre un détail, et
+la règle tient en deux cas :
+
+| la page | un détail s'ouvre… |
+| --- | --- |
+| **a un panneau** — une conversation | **dans le panneau**, en pile : « ‹ Actions » pour revenir, et Échap remonte d'un niveau |
+| **n'en a pas** — les vues d'un lieu, la liste des sessions | **dans le tiroir** commun |
+
+Un tiroir ouvert à côté d'un panneau ferait deux colonnes de détail qui se disputent la
+largeur, et deux façons de revenir. Et sur une page sans panneau, c'est le détail qui
+appelle un outil, pas un bouton posé d'avance : le diff d'une branche sans session ouvre
+le panneau git quand on le demande.
+
+## Où ils vivent
+
+Ni l'un ni l'autre n'est une primitive du design system : le tiroir se pose dans un calque
+que la coque d'un lieu lui prépare, et le panneau dépend de l'application qui le porte.
+Ce que cette page fixe, ce sont leurs règles ; les composants sont dans Solera.

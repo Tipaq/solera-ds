@@ -13,6 +13,16 @@ const SCOPES: [Segment<string>, ...Segment<string>[]] = [
   { value: 'global', label: 'Tous les projets' },
 ]
 
+const ARCHIVE: [Segment<string>, ...Segment<string>[]] = [
+  { value: 'active', label: 'Actives', count: 12 },
+  { value: 'archived', label: 'Archivées', count: 40 },
+]
+
+const PERIODS: [Segment<string>, ...Segment<string>[]] = [
+  { value: 'day', label: 'Jour' },
+  { value: 'week', label: 'Semaine' },
+]
+
 const meta = {
   title: 'Primitives/SegmentedControl',
   parameters: {
@@ -28,9 +38,13 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-function Demo({ segments, label }: { segments: [Segment<string>, ...Segment<string>[]]; label: string }) {
+function Demo({ segments, label, className }: {
+  segments: [Segment<string>, ...Segment<string>[]]
+  label: string
+  className?: string
+}) {
   const [value, setValue] = useState(segments[0].value)
-  return <SegmentedControl label={label} value={value} segments={segments} onChange={setValue} />
+  return <SegmentedControl label={label} value={value} segments={segments} onChange={setValue} className={className} />
 }
 
 /** Avec icône : la bascule d'un éditeur vers son aperçu. */
@@ -43,4 +57,20 @@ export const AvecIcone: Story = {
 export const Nu: Story = {
   name: 'Sans icône',
   render: () => <Demo label="Portée" segments={SCOPES} />,
+}
+
+/** Avec compte : une portée qui dit combien chaque côté en tient. Un inventaire, donc gris. */
+export const AvecCompte: Story = {
+  name: 'Avec compte',
+  render: () => <Demo label="Sessions" segments={ARCHIVE} />,
+}
+
+/** Pleine largeur : un choix exclusif posé dans un menu, qui en prend toute la ligne. */
+export const PleineLargeur: Story = {
+  name: 'Pleine largeur',
+  render: () => (
+    <div className="surface w-64 rounded-xl border border-line p-3 shadow-pop">
+      <Demo label="Période" segments={PERIODS} className="flex w-full" />
+    </div>
+  ),
 }

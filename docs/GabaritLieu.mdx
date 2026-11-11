@@ -19,28 +19,88 @@ Depuis le 2026-10-15 (`docs/audits/2026-10-14-gestion-de-projet/`), un projet et
 portefeuille ne sont plus une page mais **une coque et des vues**, et c'est ce qui place
 le gabarit ci-dessous : il décrit la vue d'arrivée, pas la page entière.
 
+La coque a été reprise le 2026-11-11 (page projet v2, `docs/audits/2026-11-09-page-projet-v2/`) :
+**la même** pour un projet et pour le portefeuille — « je n'ai pas la même UI pour la top
+bar et les onglets », disait Tim des deux versions d'avant.
+
 | étage | ce qu'il porte | qui le rend |
 | --- | --- | --- |
-| **la bande** | ce qui **ne dépend pas de la vue** : le projet, son dépôt, *Nouvelle conversation*, le `⋯` | `ProjectLayout` |
-| **la rangée** | les vues, et **l'action de la vue** au bout — *+ Carte*, *+ Tâche* | `ProjectTabs` |
-| **le contenu** | la vue ouverte, qui commence à son contenu : ni bande ni en-tête propre | la page |
+| **la bande** | ce qui **ne dépend pas de la vue** : l'avatar ou l'icône du lieu, son nom, et **un seul geste** — *+ Conversation* pour un projet, *+ Projet* pour le portefeuille | la coque du lieu |
+| **la rangée** | les vues — *Aperçu · Travail · Tableau · Jalons · Actions* —, leurs comptes, et *Réglages* au bout | la coque du lieu |
+| **la barre d'outils** | ce qui **règle la vue** : recherche, *Filtrer ▾*, *Affichage ▾*, l'action principale de la vue | la vue |
+| **le contenu** | la vue ouverte, qui commence à son contenu : ni bande ni en-tête propre | la vue |
 
-Trois conséquences qui se vérifient en relisant une page :
+Ce qui se vérifie en relisant une page :
 
 - **La bande est identique sur toutes les vues**, donc elle ne clignote pas quand on
   change d'onglet. Une route de disposition et non un en-tête recopié : c'est ce qui le
   garantit, plutôt qu'une discipline.
-- **Le `⋯` ne navigue plus vers une vue.** La rangée est juste en dessous ; redire les
-  vues dans le menu est exactement la redondance que l'audit est venu défaire. Il ne
-  porte que les gestes du projet.
-- **Pas de couloir centré** : pleine largeur, marge de 1 rem, et c'est la **grille** qui
-  tient la lecture — trois colonnes à l'Aperçu, quatre au board, deux aux planifiées. Un
-  couloir faisait sauter le bord gauche de la rangée de plusieurs centimètres entre une
-  vue de lecture et le board.
+- **Ni `⋯` ni pastille de branche dans la bande.** La pastille montrait la branche
+  extraite à la racine du projet, un détail sans sens à l'échelle du projet : elle se lit
+  dans *Travail*. Le `⋯` ne portait plus que les réglages et les couleurs, qui sont aux
+  réglages.
+- **Réglages est un onglet, au bout de la rangée** : poussé à droite, séparé des vues de
+  travail par un filet vertical (`h-5 w-px bg-line`), même style d'onglet, libellé masqué
+  au téléphone. Un lien pour un projet (souligné quand on y est : la page de réglages vit
+  **dans** la coque, sous la rangée), un bouton pour le portefeuille, qui ouvre ceux de
+  l'instance en fenêtre.
+- **Plus d'action de vue dans la rangée.** *+ Carte* vit dans la barre d'outils du
+  Tableau, *+ Tâche* dans l'en-tête des Planifiées : la rangée ne porte que des vues,
+  et l'action est posée à côté de ce qu'elle remplit. Elle reste commandée par l'adresse
+  (`?nouvelle=1`) et non par un gestionnaire remonté depuis la page : l'intention
+  survit à un rechargement.
+- **Pas de couloir centré** : pleine largeur, et c'est la **grille** qui tient la
+  lecture. Aucune vue ne plafonne sa colonne ; seuls des textes, à l'intérieur d'une
+  ligne, peuvent être bornés pour garder les gestes près de leur contenu. Un couloir
+  faisait sauter le bord gauche de la rangée de plusieurs centimètres d'une vue à l'autre.
 
-L'action de la vue est commandée par l'adresse (`?nouvelle=1`) et non par un
-gestionnaire remonté depuis la page : la rangée ne connaît alors aucun dialogue, et
-l'intention survit à un rechargement.
+## Une seule gouttière, du haut de la bande au premier mot du contenu
+
+Bande, rangée, barre d'outils et contenu partent du **même bord** : **16 px, 24 px à
+partir de `md`**.
+
+| étage | classes |
+| --- | --- |
+| la bande | `pl-4 pr-4 md:pl-6 md:pr-6` |
+| la rangée | `px-3 md:px-5` — elle retranche le `px-1` de `tabItemClass` |
+| la barre d'outils | `px-4 md:px-6` |
+| le contenu | `p-4 md:p-6` |
+
+La rangée est la seule à écrire un autre chiffre, et c'est pour tomber au même endroit :
+ses onglets ont leur propre `px-1`, que la rangée retranche pour que l'icône du premier
+onglet tombe sur le bord de l'avatar. **Ça se vérifie à l'œil** : l'avatar, l'icône
+d'*Aperçu*, la loupe de la recherche et le premier texte du contenu sont sur une même
+verticale. Les tiroirs et le panneau gardent leurs marges à eux (voir *Panneau et
+tiroir*).
+
+## Les comptes de la rangée ont trois tons, et un seul sens chacun
+
+Un compte d'onglet est un `TabCount` — le même dans un panneau et dans la rangée d'un
+lieu —, et sa couleur dit **ce qu'il compte**, pas qu'il est important :
+
+| ton | ce qu'il compte | dans la rangée d'un projet |
+| --- | --- | --- |
+| gris (`neutral`) | un **inventaire** : ce qui existe | *Tableau* : les cartes ouvertes sans enfant |
+| ambre (`caution`) | ce qui **t'attend** | *Travail* : les sessions qui attendent ou ont échoué, et les demandes ouvertes |
+| vert (`running`) | ce qui **tourne** | *Actions* : les services en marche et les processus des sessions — sauf s'il y a des actions à relire, qui passent d'abord en ambre |
+
+**Pas de pastille à zéro**, et une infobulle qui dit ce que la pastille compte
+(« 2 à relire », « 3 en marche ») — le nombre seul ne le dit pas. *Jalons* n'a pas de
+compte : rien n'y attend en propre qu'une autre vue ne dise déjà.
+
+Le vert a remplacé le ⚡ de la bande, retiré le même jour : ce qui tourne se lit sur
+l'onglet qui le montre, à un clic, au lieu d'un lanceur à part.
+
+## La barre d'outils tient sur une ligne
+
+Sous la rangée, chaque vue qui se règle a **une** barre, `h-12`, et tout y tient sur une
+ligne : la recherche, *Filtrer ▾*, les puces des filtres posés (dans une zone qui défile à
+l'horizontale, jamais à la ligne), les commandes discrètes, *Affichage ▾*, puis l'action
+principale, seule. Le choix de la vue (Kanban, Liste…) est en tête d'*Affichage ▾*, en
+tuiles ; ce n'est pas une seconde rangée d'onglets.
+
+Une vue qu'on **lit** n'a pas de barre : l'*Aperçu* d'un projet et celui du portefeuille
+commencent directement à leur contenu.
 
 ## Trois étages, et c'est l'ordre qui les justifie
 
@@ -108,36 +168,33 @@ un résumé qui redessine ses propres tuiles finit par mentir sur le board qu'on
 cliquant dessus. Le glissement, lui, reste au board plein — les tuiles sont rendues
 `disabled`, ce qui leur retire leur poignée.
 
-## En lignes, pas en cartes, dès qu'on compare
+## Le portefeuille : la même grammaire, un cran au-dessus
 
-Le **portefeuille** a la même grammaire qu'un projet, un cran au-dessus : *Projets ·
-Board · Travail*. C'est ce qui a permis d'écarter un cinquième lieu « Travail » — le
-transversal appartient à la page qui montre déjà tous les projets — et de rendre aux
-projets leur pleine largeur, eux qui passaient au second plan dans une colonne de 22 rem
-à côté d'une liste de cartes.
+Le **portefeuille** a les mêmes vues qu'un projet, un cran au-dessus : *Aperçu · Travail ·
+Tableau · Jalons · Actions*, chacune sur tous les projets. C'est ce qui a permis d'écarter
+un lieu « Travail » à part — le transversal appartient à la page qui montre déjà tous les
+projets.
 
-Les trois vues transversales ne disent pas la même chose, et c'est ce qui les sépare :
+**Son Aperçu est en cartes**, une par projet, triées par **ce qui attend d'abord** (le plus
+de sessions qui attendent, puis le plus de sessions vivantes, puis l'activité la plus
+récente). La page « Projets » d'avant était en lignes, pour comparer huit branches sur une
+colonne alignée ; la question de l'Aperçu n'est plus celle-là, c'est « où en sont mes
+projets ? », et chaque carte y répond pour elle-même — ce qui l'attend (en ambre, bord
+compris), son jalon en cours et sa progression, ce qui tourne. Des éléments qui ne se
+comparent pas vont en grille ; c'est la règle qui plaçait déjà les tuiles du bandeau.
 
-| vue | la question | le rangement |
-| --- | --- | --- |
-| **Board** | « où en est le chantier ? » | par **état** : quatre colonnes, cartes mêlées, pastille de projet |
-| **Travail** | « par quoi je m'y remets ? » | par **demande** : ce qui attend, ce qui est à relire, ce qui tourne |
-| **Journal** | « qu'est-ce qui s'est passé ? » | par **date** : un en-tête par jour, du plus récent au plus ancien |
-
-Le board global est en **cartes mêlées** et non en couloirs par projet : on surveille
+Le **Tableau** global est en **cartes mêlées** et non en couloirs par projet : on surveille
 mieux par projet, mais un projet calme y occupe une bande vide et la hauteur double. Le
 risque assumé — à trois projets chargés une colonne devient un patchwork — est tenu par
-la barre de filtres, qui vit **sous la rangée** : elle règle le board, donc elle lui
-appartient, et dans la bande elle survivrait à un changement d'onglet.
-
-La page Projets est en lignes : on compare mieux huit projets sur une colonne alignée
-que sur une grille. L'œil descend une colonne et lit huit branches, là où une grille lui
-fait refaire le chemin dans chaque carte. La grille revient quand les éléments ne se
-comparent pas — ce qui est le cas des quatre tuiles du bandeau, qui disent quatre choses
-différentes.
-
+la section *Projet* en tête de *Filtrer ▾*, dans la barre d'outils : elle règle le
+Tableau, donc elle lui appartient, et dans la bande elle survivrait à un changement
+d'onglet.
 
 ## Le Journal range par date, et sa colonne de droite est fixe
+
+⚠️ **Le Journal n'est plus un onglet depuis le 2026-11-11** : il est devenu la vue *Par
+moment* de *Travail*, choisie dans *Affichage ▾*, et ses anciennes adresses y mènent. Ses
+règles restent, et elles valent pour cette vue.
 
 Le *Journal* (F5 pour un projet, F11 pour le portefeuille) est la quatrième vue des deux
 rangées depuis le 2026-10-16. Il n'invente aucune matière : il rassemble sept sources qui

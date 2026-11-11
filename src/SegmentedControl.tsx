@@ -5,6 +5,9 @@ export interface Segment<T extends string> {
   value: T
   label: string
   icon?: ReactNode
+  /** Un compte en regard de l'intitulé (« Actives 12 · Archivées 40 ») : un inventaire,
+      à l'encre atténuée. `undefined` n'occupe pas de place. */
+  count?: number
 }
 
 /**
@@ -22,6 +25,9 @@ export interface Segment<T extends string> {
  * s'excluent, et un lecteur d'écran doit l'annoncer comme tel — c'est le raisonnement
  * de `ChoiceList`, dont celui-ci est la forme repliée. Au-delà de trois segments ou
  * quand les options demandent une explication, c'est `ChoiceList` qu'il faut.
+ *
+ * Les segments se partagent la largeur du rail (`flex-1`) : un `className="flex w-full"`
+ * l'étire sur toute sa ligne, dans un menu par exemple, sans autre option.
  */
 export function SegmentedControl<T extends string>({
   label,
@@ -59,6 +65,9 @@ export function SegmentedControl<T extends string>({
           >
             {segment.icon}
             {segment.label}
+            {segment.count === undefined ? null : (
+              <span className="tabular-nums text-ink-faint">{segment.count}</span>
+            )}
           </button>
         )
       })}
