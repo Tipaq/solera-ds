@@ -9,6 +9,11 @@ export interface CardChoice<T extends string> {
   icon?: ReactNode
   /** Une marque courte après le libellé : l'option conseillée, typiquement. */
   badge?: string
+  /**
+   * Visible mais pas choisissable : une option que le produit annonce sans la tenir
+   * encore. Le badge dit pourquoi (« à venir ») ; les flèches la sautent.
+   */
+  disabled?: boolean
 }
 
 /**
@@ -43,18 +48,18 @@ const FOCUS = 'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visi
  * boucle. Pour un groupe radio elles choisissent aussi, comme le fait le navigateur
  * pour ses propres boutons radio.
  */
-function useArrows(onMove?: (index: number) => void) {
+function useArrows(onMove?: (value: string) => void) {
   const group = useRef<HTMLDivElement>(null)
   const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[event.key]
     if (!step || !group.current) return
-    const items = Array.from(group.current.querySelectorAll<HTMLButtonElement>('[data-card]'))
+    const items = Array.from(group.current.querySelectorAll<HTMLButtonElement>('[data-card]:not(:disabled)'))
     const current = items.indexOf(document.activeElement as HTMLButtonElement)
     if (current < 0) return
     event.preventDefault()
-    const next = (current + step + items.length) % items.length
-    items[next]!.focus()
-    onMove?.(next)
+    const next = items[(current + step + items.length) % items.length]!
+    next.focus()
+    if (next.dataset.card) onMove?.(next.dataset.card)
   }
   return { group, onKeyDown }
 }
@@ -89,9 +94,9 @@ export function ChoiceCards<T extends string>({
   columns?: Columns
   selectedExtra?: (value: T) => ReactNode
 }) {
-  const { group, onKeyDown } = useArrows((index) => onChange(options[index]!.value))
+  const { group, onKeyDown } = useArrows((next) => onChange(next as T))
   // Sans option choisie, la première reçoit le focus de Tab : sinon le groupe en sortirait.
-  const entry = options.some((option) => option.value === value) ? value : options[0]?.value
+  const entry = options.some((option) => option.value === value) ? value : options.find((option) => !option.disabled)?.value
   return (
     <div className="@container w-full min-w-0">
       <div
@@ -105,15 +110,17 @@ export function ChoiceCards<T extends string>({
           const selected = option.value === value
           const extra = selected ? selectedExtra?.(option.value) : null
           return (
-            <div key={option.value} className={cx(CARD, selected ? CARD_ON : CARD_OFF)}>
+            <div key={option.value} className={cx(CARD, selected ? CARD_ON : option.disabled ? 'border-line' : CARD_OFF)}>
               <button
                 type="button"
                 role="radio"
-                data-card
+                data-card={option.value}
                 aria-checked={selected}
+                disabled={option.disabled}
                 tabIndex={option.value === entry ? 0 : -1}
                 onClick={() => onChange(option.value)}
                 className={cx(
+                  'disabled:cursor-not-allowed disabled:opacity-55',
                   // Une pastille se pose sur la première ligne, une icône au milieu.
                   'flex min-h-11 w-full text-left',
                   option.icon ? 'items-center' : 'items-start',

@@ -9,7 +9,7 @@ const meta = {
     docs: {
       description: {
         component:
-          "Un choix exclusif en **cartes**, côte à côte quand la place le permet.\n\n`ChoiceList` empile ses options en lignes ; `ChoiceCards` les pose en grille, pour les deux ou trois décisions qui structurent un formulaire (« une commande ou un agent »). Deux tailles : `lg` pour la question qui ouvre le formulaire (icône dans un carré, coche à droite), `sm` pour une précision (icône seule, explication tronquée).\n\nLes colonnes suivent la largeur **du composant**, par requête de conteneur, et non celle de l'écran : la même carte se pose en deux colonnes dans un tiroir large et en une dans le panneau d'une conversation.\n\nUne option sans icône prend une **pastille radio** : c'est alors elle qui dit le choix. `badge` marque l'option conseillée ; `selectedExtra` déplie un réglage sous l'option choisie, et sous elle seule.\n\nSémantique de groupe radio : Tab entre dans le groupe sur l'option choisie, les flèches passent d'une option à l'autre.",
+          "Un choix exclusif en **cartes**, côte à côte quand la place le permet.\n\n`ChoiceList` empile ses options en lignes ; `ChoiceCards` les pose en grille, pour les deux ou trois décisions qui structurent un formulaire (« une commande ou un agent »). Deux tailles : `lg` pour la question qui ouvre le formulaire (icône dans un carré, coche à droite), `sm` pour une précision (icône seule, explication tronquée).\n\nLes colonnes suivent la largeur **du composant**, par requête de conteneur, et non celle de l'écran : la même carte se pose en deux colonnes dans un tiroir large et en une dans le panneau d'une conversation.\n\nUne option sans icône prend une **pastille radio** : c'est alors elle qui dit le choix. `badge` marque l'option conseillée ; `disabled` montre une option annoncée qu'on ne peut pas encore choisir (les flèches la sautent) ; `selectedExtra` déplie un réglage sous l'option choisie, et sous elle seule.\n\nSémantique de groupe radio : Tab entre dans le groupe sur l'option choisie, les flèches passent d'une option à l'autre.",
       },
     },
   },
@@ -34,10 +34,11 @@ const WHERE: CardChoice<'root' | 'worktree' | 'confined'>[] = [
   { value: 'confined', label: 'Confiné', hint: 'sans demandes d’autorisation', icon: <Shield size={14} /> },
 ]
 
-const PLACEMENT: CardChoice<'follow' | 'root' | 'branch'>[] = [
+const PLACEMENT: CardChoice<'follow' | 'root' | 'branch' | 'per-tree'>[] = [
   { value: 'follow', label: 'Là d’où on le lance', hint: 'La racine ou le worktree de la session qui le démarre.', badge: 'conseillé' },
   { value: 'root', label: 'Toujours la racine', hint: 'Le dossier du projet, quelle que soit la session.' },
   { value: 'branch', label: 'Toujours une branche', hint: 'Fixé sur une branche, par exemple celle de dev.' },
+  { value: 'per-tree', label: 'Une instance par worktree', hint: 'Chaque arbre a la sienne.', badge: 'à venir', disabled: true },
 ]
 
 function Choice<T extends string>({ options, initial, size, columns }: {
@@ -90,7 +91,7 @@ export const Conteneur: Story = {
 }
 
 function Placement() {
-  const [value, setValue] = useState<'follow' | 'root' | 'branch'>('branch')
+  const [value, setValue] = useState<'follow' | 'root' | 'branch' | 'per-tree'>('branch')
   const [branch, setBranch] = useState('dev')
   return (
     <ChoiceCards
@@ -118,8 +119,8 @@ function Placement() {
 }
 
 /**
- * Sans icône : la pastille radio, un badge sur l'option conseillée, et un réglage déplié
- * sous l'option choisie.
+ * Sans icône : la pastille radio, un badge sur l'option conseillée, une option annoncée
+ * mais pas encore choisissable, et un réglage déplié sous l'option choisie.
  */
 export const AvecReglage: Story = {
   name: 'Pastille, badge et réglage déplié',
