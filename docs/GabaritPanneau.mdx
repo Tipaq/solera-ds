@@ -106,6 +106,13 @@ mêmes pièces, exportées par `@solera/ui` (story *Primitives/Panel*) :
 | `StackHeader` | 48 px | le détail **en pile** : « ‹ Onglet » pour revenir, puis ce qu'on regarde |
 | `PanelEmpty` | une ligne | l'état vide, et le geste utile à côté |
 
+Une exception à l'état vide sur une ligne : l'onglet qui n'a **rien d'autre** à montrer
+qu'un geste pour commencer — *Terminaux* sans aucun shell. Son état vide se centre dans
+l'onglet : une petite icône ronde, une phrase, une ligne grise qui dit ce que le geste
+fera (où le shell s'ouvrira), et le geste en `Button size="sm"`. Une ligne serrée contre
+la barre y laisserait un onglet vide sous elle. Un groupe vide, ou un onglet qui garde
+d'autres contenus, reste sur `PanelEmpty`.
+
 Pas de cartes bordées dans un onglet : la couleur ne sert qu'aux points d'état, qui
 reprennent les rôles des comptes d'onglet — vert ce qui tourne, ambre ce qui attend, rouge
 ce qui a échoué. Le point est muet : l'état se dit aussi en toutes lettres.
