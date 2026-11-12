@@ -62,7 +62,7 @@ export const Grandes: Story = {
 
 /**
  * Un conteneur plus étroit que les explications : la carte garde sa largeur et tronque
- * son explication au lieu de déborder (le panneau Lancer d'un jalon, à côté d'un libellé).
+ * son explication au lieu de déborder (un panneau étroit, à côté d'un libellé de champ).
  */
 export const Etroit: Story = {
   name: 'Conteneur étroit',
