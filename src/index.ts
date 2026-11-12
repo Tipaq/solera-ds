@@ -6,6 +6,7 @@ export { ChoiceList, type Choice } from './ChoiceList'
 export { ConfirmDialog } from './ConfirmDialog'
 export { ContextMenu, ContextMenuItem, ContextMenuSeparator } from './ContextMenu'
 export { Field } from './Field'
+export { FoldLine } from './FoldLine'
 export { UiLabelsProvider, useUiLabels, type UiLabels } from './labels'
 export {
   Menu,
