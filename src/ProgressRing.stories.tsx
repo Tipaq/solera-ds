@@ -8,17 +8,17 @@ const meta = {
     docs: {
       description: {
         component:
-          "Un anneau d'avancement : la part faite en accent sur une piste `surface-high`, et au centre ce que l'appelant y pose. `value` va de 0 à 1. `label` est ce qu'entend le lecteur d'écran ; sans lui, l'anneau est décoratif et le centre parle seul.\n\nÀ réserver à **un** avancement qu'on regarde en premier (le jalon en cours) : dans une liste, une barre fine se lit mieux.",
+          "Un anneau d'avancement : la part faite en accent sur une piste `surface-high`, et au centre ce que l'appelant y pose. `value` va de 0 à 1. `label` est ce qu'entend le lecteur d'écran ; sans lui, l'anneau est décoratif et le centre parle seul.\n\nÀ réserver à **un** avancement, celui qu'on regarde en premier : dans une liste, une barre fine se lit mieux.",
       },
     },
   },
-  args: { value: 0.6, size: 88, stroke: 8, label: '3 faites sur 5' },
+  args: { value: 0.6, size: 88, stroke: 8, label: '3 sur 5' },
 } satisfies Meta<typeof ProgressRing>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-/** Le pourcentage et le compte au centre, comme le jalon en cours de l'Aperçu. */
+/** Le pourcentage et le compte au centre. */
 export const AvecCentre: Story = {
   name: 'Avec un centre',
   render: (args) => (

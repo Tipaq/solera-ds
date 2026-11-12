@@ -7,7 +7,7 @@ import { cx } from './cx'
  * le trait sont des jetons, pas des couleurs.
  *
  * `value` va de 0 à 1 ; au-delà, il est ramené dans l'intervalle. `label` est ce
- * qu'entend le lecteur d'écran à la place de l'anneau (« 3 cartes faites sur 5 ») ;
+ * qu'entend le lecteur d'écran à la place de l'anneau (« 3 sur 5 ») ;
  * sans lui, l'anneau est décoratif et le centre parle seul.
  */
 export function ProgressRing({
