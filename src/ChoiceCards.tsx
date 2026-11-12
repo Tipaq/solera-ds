@@ -120,7 +120,7 @@ export function ChoiceCards<T extends string>({
                 tabIndex={option.value === entry ? 0 : -1}
                 onClick={() => onChange(option.value)}
                 className={cx(
-                  'disabled:cursor-not-allowed disabled:opacity-55',
+                  'disabled:cursor-not-allowed disabled:opacity-45',
                   // Une pastille se pose sur la première ligne, une icône au milieu.
                   'flex min-h-11 w-full text-left',
                   option.icon ? 'items-center' : 'items-start',
