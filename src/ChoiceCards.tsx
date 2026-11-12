@@ -17,7 +17,10 @@ export interface CardChoice<T extends string> {
 }
 
 /**
- * Les colonnes d'une grille de cartes, par requête de conteneur.
+ * Les colonnes d'une grille de cartes, par requête de conteneur. La grille part toujours
+ * d'une colonne `minmax(0, 1fr)` : une colonne implicite prendrait la largeur de
+ * l'explication sur une ligne, et la carte déborderait d'un conteneur étroit au lieu de
+ * la tronquer.
  *
  * Deux paliers fixes plutôt qu'une largeur passée en prop : une classe Tailwind se lit
  * dans le source au build, et `@min-[${min}]` n'en produirait aucune. Les seuils sont
@@ -104,7 +107,7 @@ export function ChoiceCards<T extends string>({
         role="radiogroup"
         aria-label={label}
         onKeyDown={onKeyDown}
-        className={cx('grid gap-2', COLUMNS[columns])}
+        className={cx('grid grid-cols-1 gap-2', COLUMNS[columns])}
       >
         {options.map((option) => {
           const selected = option.value === value
@@ -208,7 +211,7 @@ export function CheckCards<T extends string>({
     onChange(values.includes(value) ? values.filter((entry) => entry !== value) : [...values, value])
   return (
     <div className="@container w-full min-w-0">
-      <div ref={group} role="group" aria-label={label} onKeyDown={onKeyDown} className={cx('grid gap-2', COLUMNS[columns])}>
+      <div ref={group} role="group" aria-label={label} onKeyDown={onKeyDown} className={cx('grid grid-cols-1 gap-2', COLUMNS[columns])}>
         {options.map((option) => {
           const checked = values.includes(option.value)
           return (
