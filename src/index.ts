@@ -6,6 +6,7 @@ export { ChoiceList, type Choice } from './ChoiceList'
 export { ConfirmDialog } from './ConfirmDialog'
 export { ContextMenu, ContextMenuItem, ContextMenuSeparator } from './ContextMenu'
 export { Field } from './Field'
+export { FoldLine } from './FoldLine'
 export { UiLabelsProvider, useUiLabels, type UiLabels } from './labels'
 export {
   Menu,
@@ -34,6 +35,7 @@ export {
 } from './Panel'
 export { Popover } from './Popover'
 export { Presets, type Preset } from './Presets'
+export { ProgressRing } from './ProgressRing'
 export { RunStrip, type RunTone, type StripRun } from './RunStrip'
 export { SaveBar } from './SaveBar'
 export { SegmentedControl, type Segment } from './SegmentedControl'

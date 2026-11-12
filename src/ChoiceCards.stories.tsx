@@ -60,6 +60,19 @@ export const Grandes: Story = {
   ),
 }
 
+/**
+ * Un conteneur plus étroit que les explications : la carte garde sa largeur et tronque
+ * son explication au lieu de déborder (un panneau étroit, à côté d'un libellé de champ).
+ */
+export const Etroit: Story = {
+  name: 'Conteneur étroit',
+  render: () => (
+    <div className="w-48 border border-dashed border-line p-2">
+      <Choice options={PLACEMENT} initial="follow" size="sm" />
+    </div>
+  ),
+}
+
 /** Une précision : petites cartes, deux puis trois colonnes. */
 export const Petites: Story = {
   name: 'Petites cartes',

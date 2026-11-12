@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Bot, Play, Plus, RotateCw, Server, SquareTerminal } from 'lucide-react'
+import { Bot, Play, Plus, Replace, RotateCw, Search, Server, SlidersHorizontal, SquareTerminal } from 'lucide-react'
 import { useState, type ReactNode } from 'react'
 import { Button, IconButton } from './Button'
 import { cx } from './cx'
@@ -158,6 +158,34 @@ export const OutilsAGauche: Story = {
             }
           >
             <IconButton size="sm" label="Relire"><RotateCw size={14} /></IconButton>
+          </PanelToolbar>
+        </div>
+      ))}
+    </div>
+  ),
+}
+
+/**
+ * Un onglet dont le champ est l'objet — la recherche, l'adresse d'une page : pas de
+ * `title`, le champ tient la place du titre et prend ce qui reste, les outils le suivent.
+ */
+export const ChampPourTitre: Story = {
+  name: 'Un champ pour titre',
+  render: () => (
+    <div className="flex flex-col gap-4">
+      {['max-w-lg', 'max-w-[22rem]'].map((width) => (
+        <div key={width} className={cx('flex w-full flex-col border-l border-line bg-canvas', width)}>
+          <PanelToolbar>
+            <label className="flex h-11 min-w-0 flex-1 items-center gap-2.5 rounded-md border border-line px-2.5 text-sm text-ink-soft focus-within:border-line-strong focus-within:text-ink md:h-9">
+              <Search size={16} className="shrink-0" />
+              <input aria-label="Chercher" placeholder="Chercher…" className="min-w-0 flex-1 bg-transparent text-ink outline-none placeholder:text-ink-soft" />
+            </label>
+            <button type="button" className={panelToolClass(true)}>
+              <SlidersHorizontal size={14} /> Filtrer <span className="tabular-nums text-accent">2</span>
+            </button>
+            <button type="button" aria-label="Remplacer" className={panelToolClass()}>
+              <Replace size={14} />
+            </button>
           </PanelToolbar>
         </div>
       ))}
