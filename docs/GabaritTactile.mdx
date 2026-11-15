@@ -20,10 +20,12 @@ Ils ne disent pas la même chose, et c'est toute la question : un grand écran t
 D'où la taille `sm` de `Button` :
 
 ```
-h-11 px-3 text-sm gap-1.5 md:h-9 pointer-coarse:h-11
+h-11 min-w-11 px-3 text-sm gap-1.5 md:h-9 md:min-w-0 pointer-coarse:h-11 pointer-coarse:min-w-11
 ```
 
-Petit au large *et* à la souris, jamais petit au doigt.
+Petit au large *et* à la souris, jamais petit au doigt — en largeur comme en hauteur : un
+bouton dont le libellé se cache au téléphone (« + Carte » réduit à « + ») ne fait plus que
+sa marge et son icône, 40 px. `min-w-11` lui rend les 44.
 
 `lg:` et `xl:` ne servent pas — l'interface a deux états, pas quatre.
 
